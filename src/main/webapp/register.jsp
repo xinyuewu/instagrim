@@ -11,35 +11,68 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Instagrim</title>
         <link rel="stylesheet" type="text/css" href="Styles.css" />
+         <style>
+            header {
+                background-color:black;
+                color:white;
+                text-align:center;
+                padding:1px;
+                font-size: 25px;
+            }   
+            nav {
+                line-height:50px;
+                background-color:#eeeeee;
+                height:770px;
+                width:200px;
+                float:left;
+                padding:10px;
+                text-align:center;
+                font-size: 20px;
+            }    
+            section {
+                height:770px;
+                padding:10px;
+                text-align:center;
+                font-size: 20px;
+            }
+            footer {
+                background-color:black;
+                color:white;
+                clear:both;
+                text-align:center;
+                padding:10px;	 	 
+            }
+        </style>
     </head>
+    
     <body>
         <header>
-        <h1>InstaGrim ! </h1>
-        <h2>Your world in Black and White</h2>
+            <h1>InstaGrim</h1>
         </header>
+        
         <nav>
-            <ul>
-                
-                <li><a href="/Instagrim/Images/majed">Sample Images</a></li>
-            </ul>
+           <a href="index.jsp">Home</a><br>
+           <a href="login.jsp">Log in</a><br>
         </nav>
-       
-        <article>
+        
+        <section>
             <h3>Register as user</h3>
             <form method="POST"  action="Register">
-                <ul>
-                    <li>User Name <input type="text" name="username"></li>
-                    <li>Password <input type="password" name="password"></li>
-                </ul>
-                <br/>
-                <input type="submit" value="Regidter"> 
+                Title <input type="text" name="username"><br>
+                First Name  <input type="text" name="username"><br>
+                Last Name <input type="text" name="username"><br>
+                User Name  <input type="text" name="username" required><br>
+                Password <input type="password" name="password" required><br>
+                Gender <input type="radio" name="gender" value="male">Male</input>
+                       <input type="radio" name="gender" value="female">Female</input><br>
+                Birthday <input type="date" name="birthday" max="2015-1-1"><br>
+                Email <input type="email" name="email" required><br>
+                <input type="submit" value="Creat account"> 
             </form>
-
-        </article>
+        </section>
+        
         <footer>
-            <ul>
-                <li class="footer"><a href="/Instagrim">Home</a></li>
-            </ul>
+            &COPY; Xinyue Wu
         </footer>
     </body>
 </html>

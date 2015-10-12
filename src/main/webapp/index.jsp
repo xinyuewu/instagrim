@@ -13,42 +13,72 @@
         <title>Instagrim</title>
         <link rel="stylesheet" type="text/css" href="Styles.css" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <style>
+            header {
+                background-color:black;
+                color:white;
+                text-align:center;
+                padding:1px;
+                font-size: 25px;
+            }
+            nav {
+                line-height:50px;
+                background-color:#eeeeee;
+                height:770px;
+                width:200px;
+                float:left;
+                padding:10px;
+                text-align:center;
+                font-size: 20px;
+            }             
+            section {
+                width:350px;
+                float:left;
+                padding:10px;	 
+            }
+            footer {
+                background-color:black;
+                color:white;
+                clear:both;
+                text-align:center;
+                padding:10px;	 	 
+            }
+        </style>
     </head>
+    
     <body>
         <header>
-            <h1>InstaGrim ! </h1>
-            <h2>Your world in Black and White</h2>
+            <h1>InstaGrim</h1>
         </header>
+        
         <nav>
-            <ul>
-
-               
-                <li><a href="upload.jsp">Upload</a></li>
-                    <%
-                        
-                        LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
-                        if (lg != null) {
-                            String UserName = lg.getUsername();
-                            if (lg.getlogedin()) {
-                    %>
-
-                <li><a href="/Instagrim/Images/<%=lg.getUsername()%>">Your Images</a></li>
-                    <%}
-                            }else{
-                                %>
-                 <li><a href="register.jsp">Register</a></li>
-                <li><a href="login.jsp">Login</a></li>
-                <%
-                                        
-                            
-                    }%>
-            </ul>
+            <% LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
+            if (lg != null) 
+            {
+                String UserName = lg.getUsername();
+                if (lg.getlogedin()) 
+                { %>
+                    <a href="upload.jsp">Upload</a><br>
+                    <a href="/Instagrim/Images/<%=lg.getUsername()%>">Your Images</a><br>
+                    <a href="index.jsp">Log out</a><br>
+                <% }
+            }
+            else
+            {%>
+                <a href="register.jsp">Register</a><br>
+                <a href="login.jsp">Log in</a>
+            <%}%>
         </nav>
+             
+        <section>
+            <img src="http://www.goliath.com/wp-content/uploads/2015/06/highlands-photography-guy-photographer-mountains-elevation-landscape-the-camera-the-sky.jpg" 
+                 alt="Show Yourself!"
+                 style="width:330%"
+                 hspace="65%">
+        </section>
+             
         <footer>
-            <ul>
-                <li class="footer"><a href="/Instagrim">Home</a></li>
-                <li>&COPY; Andy C</li>
-            </ul>
+            &COPY; Xinyue Wu
         </footer>
     </body>
 </html>
