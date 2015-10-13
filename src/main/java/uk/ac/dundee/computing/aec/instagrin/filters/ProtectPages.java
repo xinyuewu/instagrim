@@ -116,6 +116,8 @@ public class ProtectPages implements Filter {
         HttpSession session=httpReq.getSession(false);
 	LoggedIn li=(LoggedIn)session.getAttribute("LoggedIn");
         System.out.println("Session in filter "+session);
+        if (li == null){System.out.println("注释：li == null");} 
+        if (li.getlogedin()==false) {System.out.println("ProtectPages.java注释：li.getlogedin() == "+li.getlogedin());}
         if ((li == null)  || (li.getlogedin()==false)){
                System.out.println("Foward to login");
                 RequestDispatcher rd=request.getRequestDispatcher("/login.jsp");
