@@ -12,20 +12,15 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Instagrim</title>
-        <link rel="stylesheet" type="text/css" href="/Instagrim/Styles.css" />
+        <link rel="stylesheet" type="text/css" href="../Styles.css" />
     </head>
+    
     <body>
-        <header>
-        
-        <h1>InstaGrim ! </h1>
-        <h2>Your world in Black and White</h2>
-        </header>
         
         <nav>
-            <ul>
-                <li class="nav"><a href="/Instagrim/upload.jsp">Upload</a></li>
-                <li class="nav"><a href="/Instagrim/Images/majed">Sample Images</a></li>
-            </ul>
+            <a href="index.jsp">Home</a><br>
+            <a href="/Instagrim/upload.jsp">Upload</a><br>
+            <a href="/Instagrim/Images/majed">Sample Images</a><br>
         </nav>
  
         <article>
@@ -49,10 +44,6 @@
             }
         %>
         </article>
-        <footer>
-            <ul>
-                <li class="footer"><a href="/Instagrim">Home</a></li>
-            </ul>
-        </footer>
+        
     </body>
 </html>

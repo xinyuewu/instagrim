@@ -9,8 +9,33 @@ and open the template in the editor.
 */
 
 
+header {
+    background-color:black;
+    color:white;
+    text-align:center;
+    padding:1px;
+    font-size: 25px;
+}   
 nav {
-    text-align: left;
-    border: 2px;
-    float: right;
+    line-height:50px;
+    background-color:#eeeeee;
+    height:770px;
+    width:200px;
+    float:left;
+    padding:10px;
+    text-align:center;
+    font-size: 20px;
+}    
+article {
+    height:770px;
+    padding:10px;
+    text-align:center;
+    font-size: 20px;
+}
+footer {
+    background-color:black;
+    color:white;
+    clear:both;
+    text-align:center;
+    padding:10px;	 	 
 }

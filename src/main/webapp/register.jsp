@@ -7,55 +7,15 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Instagrim</title>
-        <link rel="stylesheet" type="text/css" href="Styles.css" />
-         <style>
-            header {
-                background-color:black;
-                color:white;
-                text-align:center;
-                padding:1px;
-                font-size: 25px;
-            }   
-            nav {
-                line-height:50px;
-                background-color:#eeeeee;
-                height:770px;
-                width:200px;
-                float:left;
-                padding:10px;
-                text-align:center;
-                font-size: 20px;
-            }    
-            section {
-                height:770px;
-                padding:10px;
-                text-align:center;
-                font-size: 20px;
-            }
-            footer {
-                background-color:black;
-                color:white;
-                clear:both;
-                text-align:center;
-                padding:10px;	 	 
-            }
-        </style>
-    </head>
     
-    <body>
-        <header>
-            <h1>InstaGrim</h1>
-        </header>
+    <body>  
         
         <nav>
            <a href="index.jsp">Home</a><br>
            <a href="login.jsp">Log in</a><br>
         </nav>
         
-        <section>
+        <article>
             <h3>Register as user</h3>
             <form method="POST"  action="Register">
                 Title <input type="text" name="username"><br>
@@ -69,10 +29,7 @@
                 Email <input type="email" name="email" required><br>
                 <input type="submit" value="Creat account"> 
             </form>
-        </section>
+        </article>
         
-        <footer>
-            &COPY; Xinyue Wu
-        </footer>
     </body>
 </html>
