@@ -15,11 +15,11 @@
         <nav>
             <% LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
                 if (lg != null) {
-                    String UserName = lg.getUsername();
                     if (lg.getlogedin()) {
             %>
-            <a href="upload.jsp">upload</a><br>
+            <a href="upload.jsp">Upload</a><br>
             <a href="/Instagrim/Images/<%=lg.getUsername()%>">Your Images</a><br>
+            <a href="UserProfile">My Account</a><br>
             <form method="POST" action="Logout"> 
                 <button type="submit" class="fakeLink" value="Log out">Log out </button>
             </form>
@@ -29,7 +29,7 @@
             <%}
                 } else {%>
             <a href="register.jsp">Register</a><br>
-            <a href="login.jsp">Log in</a>
+            <a href="Login">Log in</a>
             <%}%>
         </nav>
 

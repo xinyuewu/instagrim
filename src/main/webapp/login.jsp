@@ -12,7 +12,8 @@
         
         <nav>
             <a href="index.jsp">Home</a><br>
-            <a href="/Instagrim/Images/majed">Sample Images</a></li>
+            <a href="/Instagrim/Images/majed">Sample Images</a><br>
+            <a href="register.jsp">Register</a><br>
         </nav>
        
         <article>

@@ -26,7 +26,7 @@
                        <input type="radio" name="gender" value="female">Female</input><br>
                 Birthday <input type="date" name="birthday" max="2015-1-1"><br>
                 Email <input type="email" name="email" required><br>
-                <input type="submit" value="Creat account"> 
+                <br><input type="submit" value="Creat account"> 
             </form>
         </article>
         

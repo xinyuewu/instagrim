@@ -21,6 +21,10 @@
             <a href="index.jsp">Home</a><br>
             <a href="/Instagrim/upload.jsp">Upload</a><br>
             <a href="/Instagrim/Images/majed">Sample Images</a><br>
+                        <a href="userProfile.jsp">My Account</a><br>
+            <form method="POST" action="Logout"> 
+                <button type="submit" class="fakeLink" value="Log out">Log out </button>
+            </form>
         </nav>
  
         <article>
