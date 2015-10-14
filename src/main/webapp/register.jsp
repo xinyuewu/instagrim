@@ -18,8 +18,8 @@
         <article>
             <h3>Register as user</h3>
             <form method="POST"  action="Register">
-                First Name  <input type="text" name="username"><br>
-                Last Name <input type="text" name="username"><br>
+                First Name  <input type="text" name="fname"><br>
+                Last Name <input type="text" name="lname"><br>
                 User Name  <input type="text" name="username" required><br>
                 Password <input type="password" name="password" required><br>
                 Gender <input type="radio" name="gender" value="male">Male</input>

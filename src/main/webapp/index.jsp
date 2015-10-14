@@ -20,8 +20,8 @@
             %>
             <a href="upload.jsp">upload</a><br>
             <a href="/Instagrim/Images/<%=lg.getUsername()%>">Your Images</a><br>
-            <form method="POST"  action="Logout">
-                <input type="submit" class="fakeLink" value="Log out"/>
+            <form method="POST" action="Logout"> 
+                <button type="submit" class="fakeLink" value="Log out">Log out </button>
             </form>
             <% } else {%>
             <a href="register.jsp">Register</a><br>
