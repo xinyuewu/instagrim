@@ -39,3 +39,13 @@ footer {
     text-align:center;
     padding:10px;	 	 
 }
+
+.fakeLink{
+    border: 0px;
+    background-color: transparent;
+    color: blue;
+    cursor: hand;
+} 
+.fakeLink:hover{
+    text-decoration: underline;
+}

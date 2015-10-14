@@ -58,7 +58,6 @@ public class Login extends HttpServlet {
             LoggedIn lg= new LoggedIn();
             lg.setLogedin();
             lg.setUsername(username);
-            System.out.println("Login.hava注释：username:"+lg.getUsername()+"，lg.getLogedin():"+lg.getlogedin());
            // request.setAttribute("LoggedIn", lg);
             session.setAttribute("LoggedIn", lg);
             System.out.println("Session in servlet "+session);
