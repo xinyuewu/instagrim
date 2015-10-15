@@ -4,10 +4,19 @@
         <servlet-name>UserProfile</servlet-name>
         <servlet-class>uk.ac.dundee.computing.aec.instagrim.servlets.UserProfile</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Logout</servlet-name>
+        <servlet-class>uk.ac.dundee.computing.aec.instagrim.servlets.Logout</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserProfile</servlet-name>
         <url-pattern>/UserProfile</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Logout</servlet-name>
+        <url-pattern>/Logout</url-pattern>
+    </servlet-mapping>
+    
     <session-config>
         <session-timeout>
             30

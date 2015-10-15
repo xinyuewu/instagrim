@@ -117,5 +117,23 @@ public class User {
     public void setCluster(Cluster cluster) {
         this.cluster = cluster;
     }
+    
+    public boolean changeUserProfile(String fname, String lname, String gender, String birthday, String email, String username) {
+        Session session = cluster.connect("instagrim");
+        PreparedStatement ps = session.prepare("UPDATE userprofiles SET fname=?,lname=?,gender=?,birthday=?,email=? WHERE username =?" );
+        BoundStatement boundStatement = new BoundStatement(ps);
+        session.execute( // this is where the query is executed
+                boundStatement.bind( // here you are binding the 'boundStatement'
+                        fname, lname, gender, birthday, email, username));
+        System.out.println("fname = "+ fname);
+        System.out.println("lname = "+ lname);
+        System.out.println("gender = "+ gender);
+        System.out.println("birthday = "+ birthday);
+        System.out.println("email = "+ email);
+        //We are assuming this always works.  Also a transaction would be good here !
+
+        return true;
+    }
+    
 
 }

@@ -78,12 +78,12 @@ public class UserProfile extends HttpServlet {
         LoggedIn lg=(LoggedIn)session.getAttribute("LoggedIn");
         LinkedList<String> userInfo=user.getUserProfile(lg.getUsername());
  
-        session.setAttribute("fname",userInfo.get(0));
-        session.setAttribute("lname",userInfo.get(1));
-        session.setAttribute("username",userInfo.get(2));
-        session.setAttribute("gender",userInfo.get(3));
-        session.setAttribute("birthday",userInfo.get(4));
-        session.setAttribute("email",userInfo.get(5));
+        request.setAttribute("fname",userInfo.get(0));
+        request.setAttribute("lname",userInfo.get(1));
+        request.setAttribute("username",userInfo.get(2));
+        request.setAttribute("gender",userInfo.get(3));
+        request.setAttribute("birthday",userInfo.get(4));
+        request.setAttribute("email",userInfo.get(5));
         RequestDispatcher rd;
         rd=request.getRequestDispatcher("userProfile.jsp");
         rd.forward(request, response);
@@ -102,7 +102,25 @@ public class UserProfile extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        
+        String fname=request.getParameter("fname");
+        String lname=request.getParameter("lname");
+        String username=request.getParameter("username");
+        String gender=request.getParameter("gender");
+        String birthday=request.getParameter("birthday");
+        String email=request.getParameter("email");
+        
+        User us=new User();
+        us.setCluster(cluster);
+        us.changeUserProfile(fname, lname, username, gender, birthday, email);
+     
+        response.sendRedirect("UserProfile");
+        
+	//RequestDispatcher rd;
+      //  rd=request.getRequestDispatcher("userProfile.jsp");
+       // rd.forward(request, response);
+        
     }
 
     /**
