@@ -16,8 +16,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import uk.ac.dundee.computing.aec.instagrim.lib.CassandraHosts;
 import uk.ac.dundee.computing.aec.instagrim.models.User;
+import uk.ac.dundee.computing.aec.instagrim.stores.LoggedIn;
+
 
 /**
  *
@@ -57,6 +60,12 @@ public class Register extends HttpServlet {
         us.setCluster(cluster);
         us.RegisterUser(fname, lname, username, password, gender, birthday, email);
         
+        HttpSession session=request.getSession();
+        LoggedIn lg = new LoggedIn();
+        lg.setLogedin();
+        lg.setUsername(username);
+        session.setAttribute("LoggedIn", lg);
+        
 	response.sendRedirect("/Instagrim");
         
     }
@@ -64,11 +73,17 @@ public class Register extends HttpServlet {
     /**
      * Returns a short description of the servlet.
      *
+     * @param request
+     * @param response
      * @return a String containing servlet description
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+      @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+         throws ServletException, IOException {
+            RequestDispatcher rd=request.getRequestDispatcher("register.jsp");
+	    rd.forward(request,response);
+    }
 
 }

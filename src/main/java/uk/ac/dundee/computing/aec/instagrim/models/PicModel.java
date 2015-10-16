@@ -20,6 +20,7 @@ import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.utils.Bytes;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 
@@ -51,23 +52,17 @@ public class PicModel {
     }
 
     public void insertPic(byte[] b, String type, String name, String user) {
-        try {
             Convertors convertor = new Convertors();
 
             String types[]=Convertors.SplitFiletype(type);
             ByteBuffer buffer = ByteBuffer.wrap(b);
             int length = b.length;
             java.util.UUID picid = convertor.getTimeUUID();
-            
-            //The following is a quick and dirty way of doing this, will fill the disk quickly !
-            Boolean success = (new File("/var/tmp/instagrim/")).mkdirs();
-            FileOutputStream output = new FileOutputStream(new File("/var/tmp/instagrim/" + picid));
-
-            output.write(b);
-            byte []  thumbb = picresize(picid.toString(),types[1]);
+      
+            byte []  thumbb = picresize(picid.toString(),types[1],b);
             int thumblength= thumbb.length;
             ByteBuffer thumbbuf=ByteBuffer.wrap(thumbb);
-            byte[] processedb = picdecolour(picid.toString(),types[1]);
+            byte[] processedb = picdecolour(picid.toString(),types[1],b);
             ByteBuffer processedbuf=ByteBuffer.wrap(processedb);
             int processedlength=processedb.length;
             Session session = cluster.connect("instagrim");
@@ -80,16 +75,13 @@ public class PicModel {
             Date DateAdded = new Date();
             session.execute(bsInsertPic.bind(picid, buffer, thumbbuf,processedbuf, user, DateAdded, length,thumblength,processedlength, type, name));
             session.execute(bsInsertPicToUser.bind(picid, user, DateAdded));
-            session.close();
-
-        } catch (IOException ex) {
-            System.out.println("Error --> " + ex);
-        }
+            session.close();   
     }
 
-    public byte[] picresize(String picid,String type) {
+    public byte[] picresize(String picid,String type, byte[] b) {
         try {
-            BufferedImage BI = ImageIO.read(new File("/var/tmp/instagrim/" + picid));
+            ByteArrayInputStream bais = new ByteArrayInputStream(b);
+            BufferedImage BI = ImageIO.read(bais);
             BufferedImage thumbnail = createThumbnail(BI);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ImageIO.write(thumbnail, type, baos);
@@ -104,10 +96,11 @@ public class PicModel {
         return null;
     }
     
-    public byte[] picdecolour(String picid,String type) {
+    public byte[] picdecolour(String picid,String type, byte[] b) {
         try {
-            BufferedImage BI = ImageIO.read(new File("/var/tmp/instagrim/" + picid));
-            BufferedImage processed = createProcessed(BI);
+            ByteArrayInputStream bais = new ByteArrayInputStream(b);
+            BufferedImage BI = ImageIO.read(bais);
+            BufferedImage processed=createProcessed(BI);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ImageIO.write(processed, type, baos);
             baos.flush();
@@ -121,14 +114,14 @@ public class PicModel {
     }
 
     public static BufferedImage createThumbnail(BufferedImage img) {
-        img = resize(img, Method.SPEED, 250, OP_ANTIALIAS, OP_GRAYSCALE);
+        img = resize(img, Method.SPEED, 250, OP_ANTIALIAS);
         // Let's add a little border before we return result.
         return pad(img, 2);
     }
     
    public static BufferedImage createProcessed(BufferedImage img) {
         int Width=img.getWidth()-1;
-        img = resize(img, Method.SPEED, Width, OP_ANTIALIAS, OP_GRAYSCALE);
+        img = resize(img, Method.SPEED, Width, OP_ANTIALIAS);
         return pad(img, 4);
     }
    

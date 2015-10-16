@@ -18,17 +18,16 @@
     <body>
         
         <nav>
-            <a href="index.jsp">Home</a><br>
-            <a href="/Instagrim/upload.jsp">Upload</a><br>
-            <a href="/Instagrim/Images/majed">Sample Images</a><br>
-                        <a href="userProfile.jsp">My Account</a><br>
-            <form method="POST" action="Logout"> 
+            <a href="Index">Home</a><br>
+            <a href="../Upload">Upload</a><br>
+                        <a href="../UserProfile">My Account</a><br>
+            <form method="POST" action="../Logout"> 
                 <button type="submit" class="fakeLink" value="Log out">Log out </button>
             </form>
         </nav>
  
         <article>
-            <h1>Your Pics</h1>
+            <h1>My Images</h1>
         <%
             java.util.LinkedList<Pic> lsPics = (java.util.LinkedList<Pic>) request.getAttribute("Pics");
             if (lsPics == null) {

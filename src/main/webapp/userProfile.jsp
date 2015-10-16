@@ -12,15 +12,16 @@
     <body>
         
         <nav>
-            <a href="index.jsp">Home</a><br>
-            <a href="/Instagrim/Images/majed">Sample Images</a><br>
+            <% LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");%>
+            <a href="Index">Home</a><br>
+            <a href="/Instagrim/Images/<%=lg.getUsername()%>">My Images</a><br>
+            <a href="Upload">Upload</a><br>
             <form method="POST" action="Logout"> 
                 <button type="submit" class="fakeLink" value="Log out">Log out </button>
             </form>
         </nav>
         
         <article>
-            <% LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");%>
             <h1>Hi <%=lg.getUsername()%>!</h1>
             <form method="POST"  action="UserProfile">
                 First Name  <input type="text" name="fname" value="<%=(String)request.getAttribute("fname")%>"><br>

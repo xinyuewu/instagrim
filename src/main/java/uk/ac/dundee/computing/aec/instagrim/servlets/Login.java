@@ -27,10 +27,7 @@ import uk.ac.dundee.computing.aec.instagrim.stores.LoggedIn;
  */
 @WebServlet(name = "Login", urlPatterns = {"/Login"})
 public class Login extends HttpServlet {
-
     Cluster cluster=null;
-
-
     public void init(ServletConfig config) throws ServletException {
         // TODO Auto-generated method stub
         cluster = CassandraHosts.getCluster();
@@ -65,7 +62,11 @@ public class Login extends HttpServlet {
 	    rd.forward(request,response);
             
         }else{
-            response.sendRedirect("/Instagrim/login.jsp");
+             System.out.println("failed");
+            request.setAttribute("failed", true);
+            RequestDispatcher rd=request.getRequestDispatcher("login.jsp");
+	    rd.forward(request,response);
+
             
         }
     }

@@ -17,18 +17,19 @@
                 if (lg != null) {
                     if (lg.getlogedin()) {
             %>
-            <a href="upload.jsp">Upload</a><br>
-            <a href="/Instagrim/Images/<%=lg.getUsername()%>">Your Images</a><br>
+         
+            <a href="Upload">Upload</a><br>
+            <a href="/Instagrim/Images/<%=lg.getUsername()%>">My Images</a><br>
             <a href="UserProfile">My Account</a><br>
             <form method="POST" action="Logout"> 
                 <button type="submit" class="fakeLink" value="Log out">Log out </button>
             </form>
             <% } else {%>
-            <a href="register.jsp">Register</a><br>
-            <a href="login.jsp">Log in</a>
+            <a href="Register">Register</a><br>
+            <a href="Login">Log in</a>
             <%}
                 } else {%>
-            <a href="register.jsp">Register</a><br>
+            <a href="Register">Register</a><br>
             <a href="Login">Log in</a>
             <%}%>
         </nav>

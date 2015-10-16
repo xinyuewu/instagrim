@@ -8,6 +8,14 @@
         <servlet-name>Logout</servlet-name>
         <servlet-class>uk.ac.dundee.computing.aec.instagrim.servlets.Logout</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Index</servlet-name>
+        <servlet-class>uk.ac.dundee.computing.aec.instagrim.servlets.Index</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Upload</servlet-name>
+        <servlet-class>uk.ac.dundee.computing.aec.instagrim.servlets.Upload</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserProfile</servlet-name>
         <url-pattern>/UserProfile</url-pattern>
@@ -16,7 +24,14 @@
         <servlet-name>Logout</servlet-name>
         <url-pattern>/Logout</url-pattern>
     </servlet-mapping>
-    
+    <servlet-mapping>
+        <servlet-name>Index</servlet-name>
+        <url-pattern>/Index</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Upload</servlet-name>
+        <url-pattern>/Upload</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30

@@ -11,8 +11,8 @@
     <body>  
         
         <nav>
-           <a href="index.jsp">Home</a><br>
-           <a href="login.jsp">Log in</a><br>
+           <a href="Index">Home</a><br>
+           <a href="Login">Log in</a><br>
         </nav>
         
         <article>
