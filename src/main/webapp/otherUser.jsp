@@ -1,6 +1,6 @@
 <%-- 
-    Document   : header
-    Created on : 13-Oct-2015, 15:08:20
+    Document   : otherUser
+    Created on : 18-Oct-2015, 22:37:55
     Author     : xinyuewu
 --%>
 
@@ -8,14 +8,10 @@
 <!DOCTYPE html>
 <html>
     <head>
-
-        <title>Instagrim</title>
-        <link rel="stylesheet" type="text/css" href="Styles.css" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
     </head>
     <body>
-        <header>
-            <h1>InstaGrim</h1>
-        </header>
+        <h1>Hello World!</h1>
     </body>
 </html>

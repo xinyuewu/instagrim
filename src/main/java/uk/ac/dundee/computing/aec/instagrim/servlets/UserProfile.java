@@ -45,19 +45,6 @@ public class UserProfile extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet UserProfile</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet UserProfile at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -81,9 +68,7 @@ public class UserProfile extends HttpServlet {
         request.setAttribute("fname",userInfo.get(0));
         request.setAttribute("lname",userInfo.get(1));
         request.setAttribute("username",userInfo.get(2));
-        request.setAttribute("gender",userInfo.get(3));
-        request.setAttribute("birthday",userInfo.get(4));
-        request.setAttribute("email",userInfo.get(5));
+        request.setAttribute("email",userInfo.get(3));
         RequestDispatcher rd;
         rd=request.getRequestDispatcher("userProfile.jsp");
         rd.forward(request, response);
@@ -107,13 +92,11 @@ public class UserProfile extends HttpServlet {
         String fname=request.getParameter("fname");
         String lname=request.getParameter("lname");
         String username=request.getParameter("username");
-        String gender=request.getParameter("gender");
-        String birthday=request.getParameter("birthday");
         String email=request.getParameter("email");
         
         User us=new User();
         us.setCluster(cluster);
-        us.changeUserProfile(fname, lname, username, gender, birthday, email);
+        us.changeUserProfile(fname, lname, username, email);
      
         response.sendRedirect("UserProfile");
         

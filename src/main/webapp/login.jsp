@@ -11,14 +11,15 @@
     <body>
         
         <nav>
+            <p>Welcome!</p>
             <a href="Index">Home</a><br>
             <a href="Register">Register</a><br>
         </nav>
        
         <article>
             <form method="POST"  action="Login">
-                User Name <input type="text" name="username" autofocus></li><br>
-                Password <input type="password" name="password"></li><br>
+                <br>User Name <input type="text" name="username" autofocus required></li><br><br>
+                Password &nbsp;<input type="password" name="password" required></li><br><br>
                 <input type="submit" value="Login"> <br>
             </form>
             

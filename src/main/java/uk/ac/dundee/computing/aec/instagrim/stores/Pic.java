@@ -18,6 +18,9 @@ public class Pic {
     private int length;
     private String type;
     private java.util.UUID UUID=null;
+    private String dc;
+    private String un;
+    
     
     public void Pic() {
 
@@ -52,4 +55,22 @@ public class Pic {
         return image;
     }
 
+    public void setDc(String dc){
+        this.dc = dc;
+    }
+    
+    
+    public String getDc(){
+        return dc;
+    }
+    
+    public void setUn(String un){
+        this.un = un;
+    }
+    
+    
+    public String getUn(){
+        return un;
+    }
+    
 }

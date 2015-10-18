@@ -39,7 +39,7 @@ public class Logout extends HttpServlet {
        LoggedIn lg= (LoggedIn)session.getAttribute("LoggedIn");
        lg.setLogedout();
        session.invalidate();
-       response.sendRedirect("index.jsp"); 
+       response.sendRedirect("Index"); 
         }
     
 

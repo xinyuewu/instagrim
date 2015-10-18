@@ -13,6 +13,7 @@
    
         <nav>
             <% LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");%>
+            <p><%=lg.getUsername()%></p>
             <a href="Index">Home</a><br>
             <a href="/Instagrim/Images/<%=lg.getUsername()%>">My Images</a><br>
             <a href="UserProfile">My Account</a><br>
@@ -22,11 +23,12 @@
         </nav>
  
         <article>
-            <h3>File Upload</h3>
+            <h3>Image Upload</h3>
             <form method="POST" enctype="multipart/form-data" action="Image">
-                File to upload: <input type="file" name="upfile"><br/>
-                <br/>
-                <input type="submit" value="Press"> to upload the file!
+                <input type="file" name="upfile"><br/><br/>
+                <textarea name="message" rows="5" cols="30" placeholder="Describe your picture!"></textarea>
+                <br/><br/>
+                <input type="submit" value="Upload"> 
             </form>
         </article>
         

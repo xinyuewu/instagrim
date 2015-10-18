@@ -25,11 +25,13 @@ public final class Keyspaces {
                     + " processed blob,"
                     + " imagelength int,"
                     + " thumblength int,"
-                    + "  processedlength int,"
+                    + " processedlength int,"
                     + " type  varchar,"
                     + " name  varchar,"
-                    + " PRIMARY KEY (picid)"
-                    + ")";
+                    + " description  text,"
+                    + " PRIMARY KEY (picid,interaction_time)"                   
+                    + ")WITH CLUSTERING ORDER BY (interaction_time desc);";
+            
             String Createuserpiclist = "CREATE TABLE if not exists instagrim.userpiclist (\n"
                     + "picid uuid,\n"
                     + "user varchar,\n"
@@ -42,10 +44,9 @@ public final class Keyspaces {
                     + " lname text,\n"
                     + " username text PRIMARY KEY,\n"
                     + " password text,\n"
-                    + " gender text,\n"
-                    + " birthday text,\n"
                     + " email text,\n"
                     + "  );";
+            
             Session session = c.connect();
             try {
                 PreparedStatement statement = session
@@ -61,7 +62,6 @@ public final class Keyspaces {
 
             //now add some column families 
             System.out.println("" + CreatePicTable);
-
             try {
                 SimpleStatement cqlQuery = new SimpleStatement(CreatePicTable);
                 session.execute(cqlQuery);

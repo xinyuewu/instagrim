@@ -29,7 +29,7 @@ public class User {
 
     }
 
-    public boolean RegisterUser(String fname, String lname, String username, String Password, String gender, String birthday, String email) {
+    public boolean RegisterUser(String fname, String lname, String username, String Password, String email) {
         AeSimpleSHA1 sha1handler = new AeSimpleSHA1();
         String EncodedPassword = null;
         try {
@@ -39,12 +39,12 @@ public class User {
             return false;
         }
         Session session = cluster.connect("instagrim");
-        PreparedStatement ps = session.prepare("insert into userprofiles (fname, lname, username, password, gender, birthday, email) Values(?,?,?,?,?,?,?)");
+        PreparedStatement ps = session.prepare("insert into userprofiles (fname, lname, username, password, email) Values(?,?,?,?,?)");
 
         BoundStatement boundStatement = new BoundStatement(ps);
         session.execute( // this is where the query is executed
                 boundStatement.bind( // here you are binding the 'boundStatement'
-                        fname, lname, username, EncodedPassword, gender, birthday, email));
+                        fname, lname, username, EncodedPassword, email));
         //We are assuming this always works.  Also a transaction would be good here !
 
         return true;
@@ -84,7 +84,7 @@ public class User {
     public LinkedList getUserProfile(String username) {
 
         Session session = cluster.connect("instagrim");
-        PreparedStatement ps = session.prepare("select fname,lname,username,gender,birthday,email from userprofiles where username =?");
+        PreparedStatement ps = session.prepare("select fname,lname,username,email from userprofiles where username =?");
         LinkedList<String> userInfo = new LinkedList<>();
         ResultSet rs = null;
         BoundStatement boundStatement = new BoundStatement(ps);
@@ -93,7 +93,7 @@ public class User {
                         username));
         if (rs.isExhausted()) {
             System.out.println("No user info");
-            for (int i = 0; i < 6; i++) {
+            for (int i = 0; i < 4; i++) {
                 userInfo.add(null);
             }
         } else {
@@ -104,11 +104,8 @@ public class User {
                 System.out.println("lname :"+row.getString("lname"));
                 userInfo.add(row.getString("username"));
                 System.out.println("username :"+row.getString("username"));
-                userInfo.add(row.getString("gender"));
-                System.out.println("gender :"+row.getString("gender"));
-                userInfo.add(row.getString("birthday"));
-                System.out.println("birthday :"+row.getString("birthday"));
                 userInfo.add(row.getString("email"));
+                System.out.println("email :"+row.getString("email"));
             }
         }
         return userInfo;
@@ -118,20 +115,13 @@ public class User {
         this.cluster = cluster;
     }
     
-    public boolean changeUserProfile(String fname, String lname, String gender, String birthday, String email, String username) {
+    public boolean changeUserProfile(String fname, String lname, String email, String username) {
         Session session = cluster.connect("instagrim");
-        PreparedStatement ps = session.prepare("UPDATE userprofiles SET fname=?,lname=?,gender=?,birthday=?,email=? WHERE username =?" );
+        PreparedStatement ps = session.prepare("UPDATE userprofiles SET fname=?,lname=?,email=? WHERE username =?" );
         BoundStatement boundStatement = new BoundStatement(ps);
         session.execute( // this is where the query is executed
                 boundStatement.bind( // here you are binding the 'boundStatement'
-                        fname, lname, gender, birthday, email, username));
-        System.out.println("fname = "+ fname);
-        System.out.println("lname = "+ lname);
-        System.out.println("gender = "+ gender);
-        System.out.println("birthday = "+ birthday);
-        System.out.println("email = "+ email);
-        //We are assuming this always works.  Also a transaction would be good here !
-
+                        fname, lname, email, username));
         return true;
     }
     

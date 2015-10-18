@@ -13,9 +13,10 @@
         
         <nav>
             <% LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");%>
+            <p><%=lg.getUsername()%></p>
             <a href="Index">Home</a><br>
-            <a href="/Instagrim/Images/<%=lg.getUsername()%>">My Images</a><br>
             <a href="Upload">Upload</a><br>
+            <a href="/Instagrim/Images/<%=lg.getUsername()%>">My Images</a><br>
             <form method="POST" action="Logout"> 
                 <button type="submit" class="fakeLink" value="Log out">Log out </button>
             </form>
@@ -27,9 +28,6 @@
                 First Name  <input type="text" name="fname" value="<%=(String)request.getAttribute("fname")%>"><br>
                 Last Name <input type="text" name="lname" value="<%=(String)request.getAttribute("lname")%>"><br>
                 User Name  <input type="text" name="username" value="<%=(String)request.getAttribute("username")%>" disabled="true"><br>
-                Gender <input type="radio" name="gender" value="<%=(String)request.getAttribute("gender")%>">Male</input>
-                       <input type="radio" name="gender" value="<%=(String)request.getAttribute("gender")%>">Female</input><br>
-                Birthday <input type="date" name="birthday" max="2015-1-1" value="<%=(String)request.getAttribute("birthday")%>"><br>
                 Email <input type="email" name="email" value="<%=(String)request.getAttribute("email")%>" required><br>
                 <br><input type="submit" value="Submit"> 
             </form>

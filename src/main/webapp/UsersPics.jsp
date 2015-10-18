@@ -14,39 +14,41 @@
         <title>Instagrim</title>
         <link rel="stylesheet" type="text/css" href="../Styles.css" />
     </head>
-    
+
     <body>
-        
         <nav>
-            <a href="Index">Home</a><br>
+            <% LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");%>
+            <p><%=lg.getUsername()%></p>
+            <a href="../Index">Home</a><br>
             <a href="../Upload">Upload</a><br>
-                        <a href="../UserProfile">My Account</a><br>
+            <a href="../UserProfile">My Account</a><br>
             <form method="POST" action="../Logout"> 
                 <button type="submit" class="fakeLink" value="Log out">Log out </button>
             </form>
         </nav>
- 
+
         <article>
-            <h1>My Images</h1>
-        <%
-            java.util.LinkedList<Pic> lsPics = (java.util.LinkedList<Pic>) request.getAttribute("Pics");
-            if (lsPics == null) {
-        %>
-        <p>No Pictures found</p>
-        <%
-        } else {
-            Iterator<Pic> iterator;
-            iterator = lsPics.iterator();
-            while (iterator.hasNext()) {
-                Pic p = (Pic) iterator.next();
+            <%
+                LinkedList<Pic> lsPics = (LinkedList<Pic>) request.getAttribute("Pics");
+                if (lsPics == null) {
+            %>
+            <p>No Pictures found</p>
+            <%
+            } else {
+                Iterator<Pic> iterator;
+                iterator = lsPics.iterator();
+                while (iterator.hasNext()) {
+                    Pic p = (Pic) iterator.next();
+            %>
 
-        %>
-        <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a><br/><%
+            <figure>
+                <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>" alt="<%=p.getSUUID()%>"></a><br/>
+                <figcaption><%=p.getDc()%></figcaption>
+            </figure>
+            <% }
+                }%>
 
-            }
-            }
-        %>
         </article>
-        
+
     </body>
 </html>

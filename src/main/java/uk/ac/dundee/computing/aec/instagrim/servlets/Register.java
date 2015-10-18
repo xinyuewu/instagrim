@@ -52,13 +52,11 @@ public class Register extends HttpServlet {
         String lname=request.getParameter("lname");
         String username=request.getParameter("username");
         String password=request.getParameter("password");
-        String gender=request.getParameter("gender");
-        String birthday=request.getParameter("birthday");
         String email=request.getParameter("email");
         
         User us=new User();
         us.setCluster(cluster);
-        us.RegisterUser(fname, lname, username, password, gender, birthday, email);
+        us.RegisterUser(fname, lname, username, password, email);
         
         HttpSession session=request.getSession();
         LoggedIn lg = new LoggedIn();
