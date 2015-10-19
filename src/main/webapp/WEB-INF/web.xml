@@ -16,6 +16,9 @@
         <servlet-name>Upload</servlet-name>
         <servlet-class>uk.ac.dundee.computing.aec.instagrim.servlets.Upload</servlet-class>
     </servlet>
+    
+    
+    
     <servlet-mapping>
         <servlet-name>UserProfile</servlet-name>
         <url-pattern>/UserProfile</url-pattern>
@@ -40,7 +43,7 @@
     <jsp-config>
         <jsp-property-group>
             <description>header and footer settings</description>
-            <url-pattern>/UsersPics.jsp</url-pattern>
+            <!--<url-pattern>/UsersPics.jsp</url-pattern>-->
             <url-pattern>/login.jsp</url-pattern>
             <url-pattern>/index.jsp</url-pattern>
             <url-pattern>/upload.jsp</url-pattern>
@@ -50,4 +53,6 @@
             <include-coda>/footer.jsp</include-coda>
         </jsp-property-group>
     </jsp-config>
+ 
+    
 </web-app>

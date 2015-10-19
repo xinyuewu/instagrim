@@ -32,20 +32,22 @@ public final class Keyspaces {
                     + " PRIMARY KEY (picid,interaction_time)"                   
                     + ")WITH CLUSTERING ORDER BY (interaction_time desc);";
             
-            String Createuserpiclist = "CREATE TABLE if not exists instagrim.userpiclist (\n"
-                    + "picid uuid,\n"
-                    + "user varchar,\n"
-                    + "pic_added timestamp,\n"
-                    + "PRIMARY KEY (user,pic_added)\n"
+            String Createuserpiclist = "CREATE TABLE if not exists instagrim.userpiclist ("
+                    + "picid uuid,"
+                    + "user varchar,"
+                    + "pic_added timestamp,"
+                    + "PRIMARY KEY (user,pic_added)"
                     + ") WITH CLUSTERING ORDER BY (pic_added desc);";
 
-            String CreateUserProfile = "CREATE TABLE if not exists instagrim.userprofiles (\n"
-                    + " fname text,\n"
-                    + " lname text,\n"
-                    + " username text PRIMARY KEY,\n"
-                    + " password text,\n"
-                    + " email text,\n"
-                    + "  );";
+            String CreateUserProfile = "CREATE TABLE if not exists instagrim.userprofiles ("
+                    + " fname text,"
+                    + " lname text,"
+                    + " username text PRIMARY KEY,"
+                    + " password text,"
+                    + " email text,"
+                    + " following list<text>,"
+                    + " followers list<text>,"
+                    + "  );\\n";
             
             Session session = c.connect();
             try {

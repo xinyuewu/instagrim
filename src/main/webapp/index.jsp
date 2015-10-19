@@ -12,7 +12,7 @@
 <!DOCTYPE html>
 <html>
     <body>
-        <nav id="navbar">
+        <nav>
             <% LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
                 if (lg != null) {
                     if (lg.getlogedin()) {
@@ -54,7 +54,7 @@
             %>
 
             <figure>
-                <figcaption><%=p.getUn()%></figcaption>
+                <figcaption><a href="/Instagrim/Images/<%=p.getUn()%>"><%=p.getUn()%></figcaption>
                 <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>" alt="<%=p.getSUUID()%>"></a><br/>
                 <figcaption><%=p.getDc()%></figcaption>
             </figure>

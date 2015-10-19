@@ -68,8 +68,8 @@ public class Image extends HttpServlet {
      * response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // TODO Auto-generated method stub
         String args[] = Convertors.SplitRequestPath(request);
+        System.out.println("    args[0]="+(String)args[0]+ "     args[1]="+(String)args[1]+"    args[2]="+(String)args[2]);
         int command;
         try {
             command = (Integer) CommandsMap.get(args[1]);
@@ -98,6 +98,8 @@ public class Image extends HttpServlet {
         java.util.LinkedList<Pic> lsPics = tm.getPicsForUser(User);
         RequestDispatcher rd = request.getRequestDispatcher("/UsersPics.jsp");
         request.setAttribute("Pics", lsPics);
+        request.setAttribute("user",User);
+        System.out.println("image.java: Username = " + User);
         rd.forward(request, response);
     }
 
@@ -115,7 +117,6 @@ public class Image extends HttpServlet {
         response.setContentType(p.getType());
         response.setContentLength(p.getLength());
 
-        //out.write(Image);
         InputStream is = new ByteArrayInputStream(p.getBytes());
         BufferedInputStream input = new BufferedInputStream(is);
         byte[] buffer = new byte[8192];
