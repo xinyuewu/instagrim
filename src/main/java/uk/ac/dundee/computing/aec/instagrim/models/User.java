@@ -84,7 +84,7 @@ public class User {
     public LinkedList getUserProfile(String username) {
 
         Session session = cluster.connect("instagrim");
-        PreparedStatement ps = session.prepare("SELECT fname,lname,username,email from userprofiles where username =?");
+        PreparedStatement ps = session.prepare("SELECT fname,lname,username,email,profilePic from userprofiles where username =?");
         LinkedList<String> userInfo = new LinkedList<>();
         ResultSet rs = null;
         BoundStatement boundStatement = new BoundStatement(ps);
@@ -106,6 +106,12 @@ public class User {
                 System.out.println("username :"+row.getString("username"));
                 userInfo.add(row.getString("email"));
                 System.out.println("email :"+row.getString("email"));
+                
+                java.util.UUID pic = row.getUUID("profilePic");
+                if(pic==null)
+                    userInfo.add("");
+                else
+                    userInfo.add(pic.toString());
             }
         }
         return userInfo;

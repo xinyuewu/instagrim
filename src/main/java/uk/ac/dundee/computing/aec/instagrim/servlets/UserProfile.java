@@ -64,14 +64,14 @@ public class UserProfile extends HttpServlet {
         HttpSession session =request.getSession();
         LoggedIn lg=(LoggedIn)session.getAttribute("LoggedIn");
         LinkedList<String> userInfo=user.getUserProfile(lg.getUsername());
-        System.out.println("get: " + lg.getUsername());
-        for(String s : userInfo){
-            System.out.println("test: "+ s);
-        }
+
         request.setAttribute("fname",userInfo.get(0));
         request.setAttribute("lname",userInfo.get(1));
         request.setAttribute("username",userInfo.get(2));
         request.setAttribute("email",userInfo.get(3));
+        request.setAttribute("profilePic",userInfo.get(4));
+        System.out.println("userInfo.get(4)"+userInfo.get(4));
+        
         RequestDispatcher rd;
         rd=request.getRequestDispatcher("userProfile.jsp");
         rd.forward(request, response);

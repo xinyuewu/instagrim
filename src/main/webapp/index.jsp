@@ -56,7 +56,7 @@
             <figure>
                 <figcaption><a href="/Instagrim/Images/<%=p.getUn()%>"><%=p.getUn()%></figcaption>
                 <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>" alt="<%=p.getSUUID()%>"></a><br/>
-                <figcaption><%=p.getDc()%></figcaption>
+                <% if (p.getDc()!=null){%><figcaption><%=p.getDc()%></figcaption><%}%>
             </figure>
             <% }
                 }%>

@@ -47,19 +47,19 @@
         </nav>
 
         <article>  
-            
-            <figcaption><a><%=request.getAttribute("user")%></a></figcaption>>
-            <% if (lg != null) {
-                    if (lg.getlogedin()) {
-                        if (!request.getAttribute("user").equals(lg.getUsername())) {
-                            System.out.println("myUn: " + lg.getUsername() + "\n otherUser: " + request.getAttribute("user"));
-            %> <button type="submit" value="Follow">Follow</button><br> <%} else {%><br><%}
-                                    }
-                                }
 
-                                LinkedList<Pic> lsPics = (LinkedList<Pic>) request.getAttribute("Pics");
+            <figcaption><a><%=request.getAttribute("user")%></a></figcaption>
+                    <% if (lg != null) {
+                            if (lg.getlogedin()) {
+                                if (!request.getAttribute("user").equals(lg.getUsername())) {
+                                    System.out.println("myUn: " + lg.getUsername() + " otherUser: " + request.getAttribute("user"));
+                    %> <button type="submit" value="Follow">Follow</button><br> <%} else {%><br><%}
+                            }
+                        }
 
-                                if (lsPics == null) {
+                        LinkedList<Pic> lsPics = (LinkedList<Pic>) request.getAttribute("Pics");
+
+                        if (lsPics == null) {
             %>
             <p>No Pictures found</p>
             <%

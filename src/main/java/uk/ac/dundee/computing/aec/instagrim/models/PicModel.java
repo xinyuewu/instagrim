@@ -29,6 +29,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
+import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
 import javax.imageio.ImageIO;
@@ -133,7 +134,7 @@ public class PicModel {
     public java.util.LinkedList<Pic> getAllPics() {
         java.util.LinkedList<Pic> Pics = new java.util.LinkedList<>();
         Session session = cluster.connect("instagrim");
-        PreparedStatement ps = session.prepare("select picid,user,description from Pics");
+        PreparedStatement ps = session.prepare("select picid,user,description,interaction_time from Pics");
         ResultSet rs = null;
         BoundStatement boundStatement = new BoundStatement(ps);
         rs = session.execute( // this is where the query is executed
@@ -152,8 +153,11 @@ public class PicModel {
                 pic.setDc(dc);
                 String username = row.getString("user");
                 pic.setUn(username);
+                Date date=row.getDate("interaction_time");
+                pic.setDate(date);
                 Pics.add(pic);
             }
+                Collections.sort(Pics);
         }
         return Pics;
     }
