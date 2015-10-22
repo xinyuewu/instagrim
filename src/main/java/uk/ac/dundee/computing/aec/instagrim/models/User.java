@@ -14,6 +14,7 @@ import com.datastax.driver.core.Session;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.LinkedList;
+import java.util.UUID;
 import uk.ac.dundee.computing.aec.instagrim.lib.AeSimpleSHA1;
 import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
 
@@ -94,24 +95,25 @@ public class User {
         if (rs.isExhausted()) {
             System.out.println("No user info");
             /*for (int i = 0; i < 4; i++) {
-                userInfo.add(null);
-            }*/
+             userInfo.add(null);
+             }*/
         } else {
             for (Row row : rs) {
                 userInfo.add(row.getString("fname"));
-                System.out.println("name :"+row.getString("fname"));
+                System.out.println("name :" + row.getString("fname"));
                 userInfo.add(row.getString("lname"));
-                System.out.println("lname :"+row.getString("lname"));
+                System.out.println("lname :" + row.getString("lname"));
                 userInfo.add(row.getString("username"));
-                System.out.println("username :"+row.getString("username"));
+                System.out.println("username :" + row.getString("username"));
                 userInfo.add(row.getString("email"));
-                System.out.println("email :"+row.getString("email"));
-                
+                System.out.println("email :" + row.getString("email"));
+
                 java.util.UUID pic = row.getUUID("profilePic");
-                if(pic==null)
+                if (pic == null) {
                     userInfo.add("");
-                else
+                } else {
                     userInfo.add(pic.toString());
+                }
             }
         }
         return userInfo;
@@ -120,10 +122,10 @@ public class User {
     public void setCluster(Cluster cluster) {
         this.cluster = cluster;
     }
-    
+
     public boolean changeUserProfile(String fname, String lname, String email, String username) {
         Session session = cluster.connect("instagrim");
-        PreparedStatement ps = session.prepare("UPDATE userprofiles SET fname=?,lname=?,email=? WHERE username =?" );
+        PreparedStatement ps = session.prepare("UPDATE userprofiles SET fname=?,lname=?,email=? WHERE username =?");
         BoundStatement boundStatement = new BoundStatement(ps);
         ResultSet rs = null;
         session.execute( // this is where the query is executed
@@ -132,21 +134,28 @@ public class User {
         PreparedStatement ps2 = session.prepare("SELECT fname from userprofiles where username = ?");
         BoundStatement bs2 = new BoundStatement(ps2);
         rs = session.execute(bs2.bind(username));
-        if(!rs.isExhausted()){
-            for(Row row:rs){
+        if (!rs.isExhausted()) {
+            for (Row row : rs) {
                 System.out.println("results" + row.getString("fname"));
             }
         }
         return true;
     }
-    
-    public boolean changeProfilePic(String picID, String username) {
+
+    public UUID getProfilePic(String username) {
         Session session = cluster.connect("instagrim");
-        PreparedStatement ps = session.prepare("UPDATE userprofiles SET picID=? WHERE username =?" );
+        PreparedStatement ps = session.prepare("SELECT profilePic from userprofiles where username =?");
         BoundStatement boundStatement = new BoundStatement(ps);
-        session.execute(boundStatement.bind(picID, username));
-        return true;
+        ResultSet rs = session.execute(boundStatement.bind(username));
+        UUID pic = null;
+        if (rs.isExhausted()) {
+            System.out.println("No user profile pic");
+        } else {
+            for (Row row : rs) {
+                pic = row.getUUID("profilePic");
+            }
+        }
+        return pic;
     }
-    
 
 }

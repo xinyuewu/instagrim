@@ -32,6 +32,7 @@ import java.nio.ByteBuffer;
 import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.UUID;
 import javax.imageio.ImageIO;
 import static org.imgscalr.Scalr.*;
 import org.imgscalr.Scalr.Method;
@@ -153,11 +154,11 @@ public class PicModel {
                 pic.setDc(dc);
                 String username = row.getString("user");
                 pic.setUn(username);
-                Date date=row.getDate("interaction_time");
+                Date date = row.getDate("interaction_time");
                 pic.setDate(date);
                 Pics.add(pic);
             }
-                Collections.sort(Pics);
+            Collections.sort(Pics);
         }
         return Pics;
     }
@@ -255,6 +256,30 @@ public class PicModel {
 
         return p;
 
+    }
+
+    public void deletePic(UUID picid) {
+        Session session = cluster.connect("instagrim");
+
+        PreparedStatement ps1 = session.prepare("DELETE from Pics WHERE picid =?");
+        BoundStatement bs1 = new BoundStatement(ps1);
+        session.execute(bs1.bind(picid));
+
+        PreparedStatement ps2 = session.prepare("SELECT * from userpiclist WHERE picid =?");
+        BoundStatement bs2 = new BoundStatement(ps2);
+        ResultSet rs = session.execute(bs2.bind(picid));
+        String username="";
+        Date date= new Date();
+        for (Row row : rs) {
+            username = row.getString("user");
+            date = row.getDate("pic_added");
+        }
+        
+        PreparedStatement ps3 = session.prepare("DELETE from userpiclist WHERE user=? and pic_added=?");
+        BoundStatement bs3 = new BoundStatement(ps3);
+        session.execute(bs3.bind(username, date));
+
+        session.close();
     }
 
 }

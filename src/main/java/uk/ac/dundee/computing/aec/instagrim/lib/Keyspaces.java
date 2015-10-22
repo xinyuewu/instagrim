@@ -35,6 +35,8 @@ public final class Keyspaces {
                     + "pic_added timestamp,"
                     + "PRIMARY KEY (user,pic_added)"
                     + ") WITH CLUSTERING ORDER BY (pic_added desc);";
+            
+            String picidInPiclist = "Create INDEX picid ON instagrim.userpiclist (picid)";
 
             String CreateUserProfile = "CREATE TABLE if not exists instagrim.userprofiles ("
                     + " fname text,"
@@ -68,6 +70,15 @@ public final class Keyspaces {
             } catch (Exception et) {
                 System.out.println("Can't create tweet table " + et);
             }
+            
+            System.out.println("" + picidInPiclist);
+            try {
+                SimpleStatement cqlQuery = new SimpleStatement(picidInPiclist);
+                session.execute(cqlQuery);
+            } catch (Exception et) {
+                System.out.println("Can't create index table " + et);
+            }
+            
             System.out.println("" + Createuserpiclist);
 
             try {

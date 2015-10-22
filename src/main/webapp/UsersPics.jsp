@@ -29,7 +29,7 @@
             <a href="../Upload">Upload</a><br>
             <a href="/Instagrim/Images/<%=lg.getUsername()%>">My Images</a><br>
             <a href="../UserProfile">My Account</a><br>
-            <form method="POST" action="Logout"> 
+            <form method="POST" action="../Logout"> 
                 <button type="submit" class="fakeLink" value="Log out">Log out </button>
             </form>
             <% } else {%>
@@ -47,19 +47,25 @@
         </nav>
 
         <article>  
+            <figure>
+                <%if (request.getAttribute("profilePic") != null) {%>
+                <a href="/Instagrim/Image/<%=request.getAttribute("profilePic")%>" ><img src="/Instagrim/Thumb/<%=request.getAttribute("profilePic")%>" width=200px></a><br/>
+                    <%} else {%> 
+                <img width="200px" src="https://oodt.apache.org/images/profile.png" alt="Profile Picture"> <%}%>
+                <figcaption><a><%=request.getAttribute("user")%></a></figcaption>
+            </figure>
 
-            <figcaption><a><%=request.getAttribute("user")%></a></figcaption>
-                    <% if (lg != null) {
-                            if (lg.getlogedin()) {
-                                if (!request.getAttribute("user").equals(lg.getUsername())) {
-                                    System.out.println("myUn: " + lg.getUsername() + " otherUser: " + request.getAttribute("user"));
-                    %> <button type="submit" value="Follow">Follow</button><br> <%} else {%><br><%}
-                            }
-                        }
+            <% if (lg != null) {
+                    if (lg.getlogedin()) {
+                        if (!request.getAttribute("user").equals(lg.getUsername())) {
+                            System.out.println("myUn: " + lg.getUsername() + " otherUser: " + request.getAttribute("user"));
+            %> <button type="submit" value="Follow">Follow</button><br> <%} else {%><br><%}
+                    }
+                }
 
-                        LinkedList<Pic> lsPics = (LinkedList<Pic>) request.getAttribute("Pics");
+                LinkedList<Pic> lsPics = (LinkedList<Pic>) request.getAttribute("Pics");
 
-                        if (lsPics == null) {
+                if (lsPics == null) {
             %>
             <p>No Pictures found</p>
             <%
@@ -72,6 +78,10 @@
             <figure>
                 <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>" alt="<%=p.getSUUID()%>"></a><br/>
                 <figcaption><%=p.getDc()%></figcaption>
+                <form method="POST" action="../Delete">
+                    <input type="hidden" name="delete" value="<%=p.getSUUID()%>">
+                    <input type="submit" value="delete">
+                </form>
             </figure>
             <% }
                 }%>

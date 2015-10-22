@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.UUID;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -25,6 +26,7 @@ import org.apache.commons.fileupload.util.Streams;
 import uk.ac.dundee.computing.aec.instagrim.lib.CassandraHosts;
 import uk.ac.dundee.computing.aec.instagrim.lib.Convertors;
 import uk.ac.dundee.computing.aec.instagrim.models.PicModel;
+import uk.ac.dundee.computing.aec.instagrim.models.User;
 import uk.ac.dundee.computing.aec.instagrim.stores.LoggedIn;
 import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
 
@@ -98,8 +100,12 @@ public class Image extends HttpServlet {
         java.util.LinkedList<Pic> lsPics = tm.getPicsForUser(User);
         request.setAttribute("Pics", lsPics);
         request.setAttribute("user", User);
-        System.out.println("image.java: Username = " + User);
-
+        
+        User user = new User();
+        user.setCluster(cluster);
+        UUID pp = user.getProfilePic(User);
+        request.setAttribute("profilePic", pp);
+        
         RequestDispatcher rd = request.getRequestDispatcher("/UsersPics.jsp");
         rd.forward(request, response);
     }
@@ -107,10 +113,8 @@ public class Image extends HttpServlet {
     private void DisplayImage(int type, String Image, HttpServletResponse response, HttpServletRequest request) throws ServletException, IOException {
         PicModel tm = new PicModel();
         tm.setCluster(cluster);
-
-        System.out.println(Image);
         Pic p = tm.getPic(type, java.util.UUID.fromString(Image));
-
+        
         OutputStream out = response.getOutputStream();
 
         response.setContentType(p.getType());
@@ -162,7 +166,7 @@ public class Image extends HttpServlet {
         }
         if (session.getAttribute("Location").equals("profile")) {
             response.sendRedirect("UserProfile");
-           //RequestDispatcher rd = request.getRequestDispatcher("/userProfile.jsp");
+            //RequestDispatcher rd = request.getRequestDispatcher("/userProfile.jsp");
             // rd.forward(request, response);
         } else {
             //response.sendRedirect("Image");
