@@ -69,7 +69,7 @@ public class Image extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String args[] = Convertors.SplitRequestPath(request);
-        System.out.println("    args[0]="+(String)args[0]+ "     args[1]="+(String)args[1]+"    args[2]="+(String)args[2]);
+        System.out.println("    args[0]=" + (String) args[0] + "     args[1]=" + (String) args[1] + "    args[2]=" + (String) args[2]);
         int command;
         try {
             command = (Integer) CommandsMap.get(args[1]);
@@ -98,12 +98,10 @@ public class Image extends HttpServlet {
         java.util.LinkedList<Pic> lsPics = tm.getPicsForUser(User);
         RequestDispatcher rd = request.getRequestDispatcher("/UsersPics.jsp");
         request.setAttribute("Pics", lsPics);
-        request.setAttribute("user",User);
+        request.setAttribute("user", User);
         System.out.println("image.java: Username = " + User);
         rd.forward(request, response);
     }
-
- 
 
     private void DisplayImage(int type, String Image, HttpServletResponse response, HttpServletRequest request) throws ServletException, IOException {
         PicModel tm = new PicModel();
@@ -127,16 +125,16 @@ public class Image extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
         for (Part part : request.getParts()) {
             System.out.println("Part Name " + part.getName());
 
             String type = part.getContentType();
             String filename = part.getSubmittedFileName();
-
+            System.out.println("type : " + type);
             InputStream is = request.getPart(part.getName()).getInputStream();
             int i = is.available();
 
-            HttpSession session = request.getSession();
             LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
             String username = "";
             if (lg.getlogedin()) {
@@ -149,10 +147,20 @@ public class Image extends HttpServlet {
                     PicModel tm = new PicModel();
                     tm.setCluster(cluster);
                     String description = request.getParameter("message");
-                    tm.insertPic(b, type, filename, username, description);
-                    is.close();
+                    if (session.getAttribute("Location").equals("profile")) {
+                        tm.insertPic(b, type, filename, username, description, true);
+                    } else {
+                        tm.insertPic(b, type, filename, username, description, false);
+                    }
                 }
+
+                is.close();
             }
+        }
+        if (session.getAttribute("Location").equals("profile")) {
+            RequestDispatcher rd = request.getRequestDispatcher("/userProfile.jsp");
+            rd.forward(request, response);
+        } else {
             RequestDispatcher rd = request.getRequestDispatcher("/upload.jsp");
             rd.forward(request, response);
         }

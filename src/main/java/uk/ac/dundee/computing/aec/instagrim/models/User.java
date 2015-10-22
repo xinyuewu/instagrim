@@ -125,5 +125,13 @@ public class User {
         return true;
     }
     
+    public boolean changeProfilePic(String picID, String username) {
+        Session session = cluster.connect("instagrim");
+        PreparedStatement ps = session.prepare("UPDATE userprofiles SET picID=? WHERE username =?" );
+        BoundStatement boundStatement = new BoundStatement(ps);
+        session.execute(boundStatement.bind(picID, username));
+        return true;
+    }
+    
 
 }

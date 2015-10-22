@@ -28,7 +28,7 @@
                 <input type="file" name="upfile"><br/><br/>
                 <textarea name="message" rows="5" cols="30" placeholder="Describe your picture!"></textarea>
                 <br/><br/>
-                <input type="submit" value="Upload"> 
+                <input type="submit" value="Upload" onclick="<%session.setAttribute("Location","upload");%>" > 
             </form>
         </article>
         

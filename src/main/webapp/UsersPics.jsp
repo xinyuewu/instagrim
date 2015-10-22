@@ -46,8 +46,9 @@
             <%}%>
         </nav>
 
-        <article>            
-            <a><%=request.getAttribute("user")%></a>
+        <article>  
+            
+            <figcaption><a><%=request.getAttribute("user")%></a></figcaption>>
             <% if (lg != null) {
                     if (lg.getlogedin()) {
                         if (!request.getAttribute("user").equals(lg.getUsername())) {

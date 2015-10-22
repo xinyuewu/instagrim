@@ -51,7 +51,7 @@ public class PicModel {
         this.cluster = cluster;
     }
 
-    public void insertPic(byte[] b, String type, String name, String user, String dc) {
+    public void insertPic(byte[] b, String type, String name, String user, String dc, boolean profilePic) {
         Convertors convertor = new Convertors();
 
         String types[] = Convertors.SplitFiletype(type);
@@ -69,13 +69,19 @@ public class PicModel {
         Session session = cluster.connect("instagrim");
 
         PreparedStatement psInsertPic = session.prepare("insert into pics ( picid, image, thumb, processed, user, interaction_time,imagelength,thumblength,processedlength,type,name,description) values(?,?,?,?,?,?,?,?,?,?,?,?)");
-        PreparedStatement psInsertPicToUser = session.prepare("insert into userpiclist ( picid, user, pic_added) values(?,?,?)");
         BoundStatement bsInsertPic = new BoundStatement(psInsertPic);
-        BoundStatement bsInsertPicToUser = new BoundStatement(psInsertPicToUser);
-
         Date DateAdded = new Date();
         session.execute(bsInsertPic.bind(picid, buffer, thumbbuf, processedbuf, user, DateAdded, length, thumblength, processedlength, type, name, dc));
-        session.execute(bsInsertPicToUser.bind(picid, user, DateAdded));
+        if (profilePic) {
+            PreparedStatement psProfilePic = session.prepare("UPDATE userprofiles SET profilePic=? WHERE username =?");
+            BoundStatement bsProfilePic = new BoundStatement(psProfilePic);
+            session.execute(bsProfilePic.bind(picid, user));
+        } else {
+            PreparedStatement psInsertPicToUser = session.prepare("insert into userpiclist ( picid, user, pic_added) values(?,?,?)");
+            BoundStatement bsInsertPicToUser = new BoundStatement(psInsertPicToUser);
+            session.execute(bsInsertPicToUser.bind(picid, user, DateAdded));
+        }
+
         session.close();
     }
 
