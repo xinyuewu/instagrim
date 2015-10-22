@@ -84,7 +84,7 @@ public class User {
     public LinkedList getUserProfile(String username) {
 
         Session session = cluster.connect("instagrim");
-        PreparedStatement ps = session.prepare("select fname,lname,username,email from userprofiles where username =?");
+        PreparedStatement ps = session.prepare("SELECT fname,lname,username,email from userprofiles where username =?");
         LinkedList<String> userInfo = new LinkedList<>();
         ResultSet rs = null;
         BoundStatement boundStatement = new BoundStatement(ps);
@@ -93,9 +93,9 @@ public class User {
                         username));
         if (rs.isExhausted()) {
             System.out.println("No user info");
-            for (int i = 0; i < 4; i++) {
+            /*for (int i = 0; i < 4; i++) {
                 userInfo.add(null);
-            }
+            }*/
         } else {
             for (Row row : rs) {
                 userInfo.add(row.getString("fname"));
@@ -119,9 +119,18 @@ public class User {
         Session session = cluster.connect("instagrim");
         PreparedStatement ps = session.prepare("UPDATE userprofiles SET fname=?,lname=?,email=? WHERE username =?" );
         BoundStatement boundStatement = new BoundStatement(ps);
+        ResultSet rs = null;
         session.execute( // this is where the query is executed
                 boundStatement.bind( // here you are binding the 'boundStatement'
                         fname, lname, email, username));
+        PreparedStatement ps2 = session.prepare("SELECT fname from userprofiles where username = ?");
+        BoundStatement bs2 = new BoundStatement(ps2);
+        rs = session.execute(bs2.bind(username));
+        if(!rs.isExhausted()){
+            for(Row row:rs){
+                System.out.println("results" + row.getString("fname"));
+            }
+        }
         return true;
     }
     

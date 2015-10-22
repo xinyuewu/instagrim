@@ -64,7 +64,10 @@ public class UserProfile extends HttpServlet {
         HttpSession session =request.getSession();
         LoggedIn lg=(LoggedIn)session.getAttribute("LoggedIn");
         LinkedList<String> userInfo=user.getUserProfile(lg.getUsername());
- 
+        System.out.println("get: " + lg.getUsername());
+        for(String s : userInfo){
+            System.out.println("test: "+ s);
+        }
         request.setAttribute("fname",userInfo.get(0));
         request.setAttribute("lname",userInfo.get(1));
         request.setAttribute("username",userInfo.get(2));
@@ -87,16 +90,14 @@ public class UserProfile extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        
+       
         String fname=request.getParameter("fname");
         String lname=request.getParameter("lname");
         String username=request.getParameter("username");
         String email=request.getParameter("email");
-        
         User us=new User();
         us.setCluster(cluster);
-        us.changeUserProfile(fname, lname, username, email);
+        us.changeUserProfile(fname, lname, email, username);
      
         response.sendRedirect("UserProfile");
         
