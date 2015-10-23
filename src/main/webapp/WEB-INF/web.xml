@@ -20,6 +20,10 @@
         <servlet-name>Delete</servlet-name>
         <servlet-class>uk.ac.dundee.computing.aec.instagrim.servlets.Delete</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Comment</servlet-name>
+        <servlet-class>uk.ac.dundee.computing.aec.instagrim.servlets.Comment</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserProfile</servlet-name>
         <url-pattern>/UserProfile</url-pattern>
@@ -39,6 +43,10 @@
     <servlet-mapping>
         <servlet-name>Delete</servlet-name>
         <url-pattern>/Delete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Comment</servlet-name>
+        <url-pattern>/Comment</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

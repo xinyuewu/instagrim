@@ -19,10 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
-import org.apache.commons.fileupload.FileItemIterator;
-import org.apache.commons.fileupload.FileItemStream;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.fileupload.util.Streams;
 import uk.ac.dundee.computing.aec.instagrim.lib.CassandraHosts;
 import uk.ac.dundee.computing.aec.instagrim.lib.Convertors;
 import uk.ac.dundee.computing.aec.instagrim.models.PicModel;
@@ -65,10 +61,8 @@ public class Image extends HttpServlet {
         cluster = CassandraHosts.getCluster();
     }
 
-    /**
-     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-     * response)
-     */
+
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String args[] = Convertors.SplitRequestPath(request);
         System.out.println("args[0]=" + (String) args[0] + "     args[1]=" + (String) args[1] + "    args[2]=" + (String) args[2]);
@@ -128,9 +122,12 @@ public class Image extends HttpServlet {
         }
         out.close();
     }
-
+    
+    
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
+        String username = "";
         for (Part part : request.getParts()) {
             System.out.println("Part Name " + part.getName());
             if (part.getName().equals("message")) {
@@ -144,10 +141,10 @@ public class Image extends HttpServlet {
             int i = is.available();
 
             LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
-            String username = "";
+            
             if (lg.getlogedin()) {
                 username = lg.getUsername();
-                System.out.println("Username in doPost: " + username);
+                System.out.println("Username in Image.doPost: " + username);
                 if (i > 0) {
                     byte[] b = new byte[i + 1];
                     is.read(b);
@@ -170,8 +167,9 @@ public class Image extends HttpServlet {
             // rd.forward(request, response);
         } else {
             //response.sendRedirect("Image");
-            RequestDispatcher rd = request.getRequestDispatcher("/upload.jsp");
-            rd.forward(request, response);
+            response.sendRedirect("/Instagrim/Images/"+username);
+           // RequestDispatcher rd = request.getRequestDispatcher("Image");
+           // rd.forward(request, response);
         }
 
     }

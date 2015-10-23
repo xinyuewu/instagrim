@@ -148,7 +148,6 @@ public class PicModel {
             for (Row row : rs) {
                 Pic pic = new Pic();
                 java.util.UUID UUID = row.getUUID("picid");
-                System.out.println("UUID" + UUID.toString());
                 pic.setUUID(UUID);
                 String dc = row.getString("description");
                 pic.setDc(dc);
@@ -179,7 +178,6 @@ public class PicModel {
             for (Row row : rs) {
                 Pic pic = new Pic();
                 java.util.UUID UUID = row.getUUID("picid");
-                System.out.println("UUID" + UUID.toString());
                 pic.setUUID(UUID);
 
                 PreparedStatement ps1 = session.prepare("select description from Pics where picid =?");
@@ -268,16 +266,27 @@ public class PicModel {
         PreparedStatement ps2 = session.prepare("SELECT * from userpiclist WHERE picid =?");
         BoundStatement bs2 = new BoundStatement(ps2);
         ResultSet rs = session.execute(bs2.bind(picid));
-        String username="";
-        Date date= new Date();
+        String username = "";
+        Date date = new Date();
         for (Row row : rs) {
             username = row.getString("user");
             date = row.getDate("pic_added");
         }
-        
+
         PreparedStatement ps3 = session.prepare("DELETE from userpiclist WHERE user=? and pic_added=?");
         BoundStatement bs3 = new BoundStatement(ps3);
         session.execute(bs3.bind(username, date));
+
+        session.close();
+    }
+
+    public void setComment(UUID picid, String commenter, String comment) {
+        Session session = cluster.connect("instagrim");
+        Date date = new Date();
+
+        PreparedStatement ps = session.prepare("INSERT into comments ( picid, commenter, time, comment) values(?,?,?,?)");
+        BoundStatement bs = new BoundStatement(ps);
+        session.execute(bs.bind(picid, commenter, date, comment));
 
         session.close();
     }

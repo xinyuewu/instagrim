@@ -38,6 +38,14 @@ public final class Keyspaces {
             
             String picidInPiclist = "Create INDEX picid ON instagrim.userpiclist (picid)";
 
+            String CreatePicComment = "CREATE TABLE if not exists instagrim.comments ("
+                    + "picid uuid,"
+                    + "commenter varchar,"
+                    + "time timestamp,"
+                    + "comment text,"
+                    + "PRIMARY KEY (picid,time)"
+                    + ") WITH CLUSTERING ORDER BY (time desc);";            
+            
             String CreateUserProfile = "CREATE TABLE if not exists instagrim.userprofiles ("
                     + " fname text,"
                     + " lname text,"
@@ -45,8 +53,6 @@ public final class Keyspaces {
                     + " password text,"
                     + " email text,"
                     + " profilePic uuid,"
-                    + " following list<text>,"
-                    + " followers list<text>,"
                     + "  );";
 
             Session session = c.connect();
@@ -80,12 +86,20 @@ public final class Keyspaces {
             }
             
             System.out.println("" + Createuserpiclist);
-
             try {
                 SimpleStatement cqlQuery = new SimpleStatement(Createuserpiclist);
                 session.execute(cqlQuery);
             } catch (Exception et) {
                 System.out.println("Can't create user pic list table " + et);
+            }
+            
+            
+            System.out.println("" + CreatePicComment);
+            try {
+                SimpleStatement cqlQuery = new SimpleStatement(CreatePicComment);
+                session.execute(cqlQuery);
+            } catch (Exception et) {
+                System.out.println("Can't create comments table " + et);
             }
 
             System.out.println("" + CreateUserProfile);

@@ -52,13 +52,21 @@
                 while (iterator.hasNext()) {
                     Pic p = (Pic) iterator.next();
             %>
-
             <figure>
                 <figcaption><a href="/Instagrim/Images/<%=p.getUn()%>"><%=p.getUn()%></figcaption>
                 <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>" alt="<%=p.getSUUID()%>"></a><br/>
-                <% if (p.getDc()!=null){%><figcaption><%=p.getDc()%></figcaption><%}%>
+                <% if (p.getDc() != null) {%><figcaption><%=p.getDc()%></figcaption><%}
+                    if (lg != null) {
+                        if (lg.getlogedin()) {%>
+                <form method="POST" action="Comment">
+                    <textarea name="comment" rows="1" cols="47" placeholder="How do you like this picture?" required></textarea>
+                    &nbsp;&nbsp;<input type="submit" value="Comment" > 
+                    <input type="hidden" name="commenter" value="<%=lg.getUsername()%>">
+                    <input type="hidden" name="picid" value="<%=p.getSUUID()%>">
+                </form> <%}%>
             </figure>
             <% }
+                    }
                 }%>
         </article>
     </body>
