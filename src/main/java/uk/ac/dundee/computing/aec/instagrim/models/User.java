@@ -100,13 +100,9 @@ public class User {
         } else {
             for (Row row : rs) {
                 userInfo.add(row.getString("fname"));
-                System.out.println("name :" + row.getString("fname"));
                 userInfo.add(row.getString("lname"));
-                System.out.println("lname :" + row.getString("lname"));
                 userInfo.add(row.getString("username"));
-                System.out.println("username :" + row.getString("username"));
                 userInfo.add(row.getString("email"));
-                System.out.println("email :" + row.getString("email"));
 
                 java.util.UUID pic = row.getUUID("profilePic");
                 if (pic == null) {

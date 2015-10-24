@@ -35,19 +35,6 @@ public class Comment extends HttpServlet {
         cluster = CassandraHosts.getCluster();
     }
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -79,16 +66,13 @@ public class Comment extends HttpServlet {
         String comment = request.getParameter("comment");
         String commenter = request.getParameter("commenter");
         UUID picid = UUID.fromString(request.getParameter("picid"));
-        
-        System.out.println("Comment.comment:" + comment);
+        String username = request.getParameter("username");
         
         PicModel p = new PicModel();
         p.setCluster(cluster);
         p.setComment(picid, commenter, comment);
 
-        System.out.println("Comment.java:" + picid);
-
-        response.sendRedirect("/Instagrim/Image/" + picid);
+        response.sendRedirect("/Instagrim/Images/" + username);
     }
 
     /**

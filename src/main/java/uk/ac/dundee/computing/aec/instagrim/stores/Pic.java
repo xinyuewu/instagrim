@@ -8,6 +8,7 @@ package uk.ac.dundee.computing.aec.instagrim.stores;
 import com.datastax.driver.core.utils.Bytes;
 import java.nio.ByteBuffer;
 import java.util.Date;
+import java.util.LinkedList;
 
 /**
  *
@@ -22,6 +23,7 @@ public class Pic implements Comparable<Pic> {
     private String dc;
     private String un;
     private Date date;
+    LinkedList<Comments> c;
 
     public void Pic() {
 
@@ -36,6 +38,14 @@ public class Pic implements Comparable<Pic> {
         } else {
             return -1;
         }
+    }
+
+    public LinkedList getComments() {
+        return c;
+    }
+
+    public void setComments(LinkedList c) {
+        this.c=c;
     }
 
     public void setUUID(java.util.UUID UUID) {

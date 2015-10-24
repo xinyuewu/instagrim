@@ -55,15 +55,8 @@
                 <figcaption><a><%=request.getAttribute("user")%></a></figcaption>
             </figure>
 
-            <%-- <% if (lg != null) {
-                if (lg.getlogedin()) {
-                    if (!request.getAttribute("user").equals(lg.getUsername())) {
-                        System.out.println("myUn: " + lg.getUsername() + " otherUser: " + request.getAttribute("user"));
-        %> <button type="submit" value="Follow">Follow</button><br> <%} else {%><br><%}
-                }
-}--%>
-
-            <%   LinkedList<Pic> lsPics = (LinkedList<Pic>) request.getAttribute("Pics");
+            <%  System.out.println("UsersPics.jsp:" + request.getAttribute("user"));
+                LinkedList<Pic> lsPics = (LinkedList<Pic>) request.getAttribute("Pics");
 
                 if (lsPics == null) {
             %>
@@ -78,8 +71,21 @@
             <figure>
                 <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>" alt="<%=p.getSUUID()%>"></a><br/>
                 <figcaption><%=p.getDc()%></figcaption>
-                    <%if (lg != null) {
-                            if (lg.getlogedin() && request.getAttribute("user").equals(lg.getUsername())) {%>
+
+                <figcaption>
+                    <% if (p.getComments() == null) {%>Test<%} else {
+                        Iterator<Comments> citerator;
+                        citerator = p.getComments().iterator();
+                        while (citerator.hasNext()) {
+                            Comments c = (Comments) citerator.next();%>
+                    <a href="/Instagrim/Images/<%=c.getCommenter()%>"><%=c.getCommenter()%></a> &nbsp;&nbsp;
+                    <a class="time"><%=c.getTime()%></a>
+                    <a><%=c.getComment()%></a><br/>
+                    <%} }%>
+                </figcaption>
+
+                <%if (lg != null) {
+                        if (lg.getlogedin() && request.getAttribute("user").equals(lg.getUsername())) {%>
                 <form method="POST" action="../Delete">
                     <input type="hidden" name="delete" value="<%=p.getSUUID()%>">
                     <input type="submit" value="delete">
@@ -89,11 +95,14 @@
                     <textarea name="comment" rows="1" cols="47" placeholder="How do you like this picture?" required></textarea>
                     &nbsp;&nbsp;<input type="submit" value="Comment" > 
                     <input type="hidden" name="commenter" value="<%=lg.getUsername()%>">
-                    <input type="hidden" name="picid" value="<%=p.getSUUID()%>">
+                    <input type="hidden" name="username" value="<%=request.getAttribute("user")%>">
+                    <input type="hidden" name="picid" value="<%=p.getSUUID()%>">     
+                    <%}
+                         }%>
                 </form> 
-                <%}}%>
             </figure>
-            <% }} %>
+            <% }
+                }%>
 
         </article>
 

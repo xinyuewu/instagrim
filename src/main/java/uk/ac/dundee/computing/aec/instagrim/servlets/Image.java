@@ -8,6 +8,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.UUID;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -23,6 +25,7 @@ import uk.ac.dundee.computing.aec.instagrim.lib.CassandraHosts;
 import uk.ac.dundee.computing.aec.instagrim.lib.Convertors;
 import uk.ac.dundee.computing.aec.instagrim.models.PicModel;
 import uk.ac.dundee.computing.aec.instagrim.models.User;
+import uk.ac.dundee.computing.aec.instagrim.stores.Comments;
 import uk.ac.dundee.computing.aec.instagrim.stores.LoggedIn;
 import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
 
@@ -61,7 +64,6 @@ public class Image extends HttpServlet {
         cluster = CassandraHosts.getCluster();
     }
 
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String args[] = Convertors.SplitRequestPath(request);
@@ -91,15 +93,15 @@ public class Image extends HttpServlet {
     private void DisplayImageList(String User, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PicModel tm = new PicModel();
         tm.setCluster(cluster);
-        java.util.LinkedList<Pic> lsPics = tm.getPicsForUser(User);
+        LinkedList<Pic> lsPics = tm.getPicsForUser(User);
         request.setAttribute("Pics", lsPics);
         request.setAttribute("user", User);
-        
+
         User user = new User();
         user.setCluster(cluster);
         UUID pp = user.getProfilePic(User);
         request.setAttribute("profilePic", pp);
-        
+
         RequestDispatcher rd = request.getRequestDispatcher("/UsersPics.jsp");
         rd.forward(request, response);
     }
@@ -107,8 +109,27 @@ public class Image extends HttpServlet {
     private void DisplayImage(int type, String Image, HttpServletResponse response, HttpServletRequest request) throws ServletException, IOException {
         PicModel tm = new PicModel();
         tm.setCluster(cluster);
-        Pic p = tm.getPic(type, java.util.UUID.fromString(Image));
+        UUID picid = UUID.fromString(Image);
+        Pic p = tm.getPic(type, picid);
+
+       /* LinkedList<Comments> c = tm.getComment(picid);
+        request.setAttribute("comments", c);
         
+        LinkedList<Comments> comments = (LinkedList<Comments>) request.getAttribute("comments");
+        if (comments != null) {
+            Iterator<Comments> Iterator;
+            Iterator = comments.iterator();
+            while (Iterator.hasNext()) {
+                Comments com = (Comments) Iterator.next();
+                
+                System.out.println("Image.java");
+                System.out.println("picid:"+picid);
+                System.out.println("commenter:" + com.getCommenter());
+                System.out.println("comment:" + com.getComment());
+                System.out.println("time:" + com.getTime());
+            }
+        }*/
+
         OutputStream out = response.getOutputStream();
 
         response.setContentType(p.getType());
@@ -122,14 +143,12 @@ public class Image extends HttpServlet {
         }
         out.close();
     }
-    
-    
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         String username = "";
         for (Part part : request.getParts()) {
-            System.out.println("Part Name " + part.getName());
             if (part.getName().equals("message")) {
                 part.delete();
                 break;
@@ -141,10 +160,9 @@ public class Image extends HttpServlet {
             int i = is.available();
 
             LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
-            
+
             if (lg.getlogedin()) {
                 username = lg.getUsername();
-                System.out.println("Username in Image.doPost: " + username);
                 if (i > 0) {
                     byte[] b = new byte[i + 1];
                     is.read(b);
@@ -167,9 +185,9 @@ public class Image extends HttpServlet {
             // rd.forward(request, response);
         } else {
             //response.sendRedirect("Image");
-            response.sendRedirect("/Instagrim/Images/"+username);
-           // RequestDispatcher rd = request.getRequestDispatcher("Image");
-           // rd.forward(request, response);
+            response.sendRedirect("/Instagrim/Images/" + username);
+            // RequestDispatcher rd = request.getRequestDispatcher("Image");
+            // rd.forward(request, response);
         }
 
     }

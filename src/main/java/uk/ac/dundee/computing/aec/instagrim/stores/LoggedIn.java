@@ -14,6 +14,7 @@ public class LoggedIn {
     boolean logedin=false;
     String Username=null;
     String flname=null;
+    
     public void LogedIn(){
         
     }

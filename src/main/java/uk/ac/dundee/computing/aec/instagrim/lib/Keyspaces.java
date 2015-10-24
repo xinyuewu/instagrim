@@ -28,7 +28,7 @@ public final class Keyspaces {
                     + " description  text,"
                     + " PRIMARY KEY (picid,interaction_time)"
                     + ")WITH CLUSTERING ORDER BY (interaction_time desc);";
-
+            
             String Createuserpiclist = "CREATE TABLE if not exists instagrim.userpiclist ("
                     + "picid uuid,"
                     + "user varchar,"

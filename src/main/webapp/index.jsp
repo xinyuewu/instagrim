@@ -55,6 +55,20 @@
             <figure>
                 <figcaption><a href="/Instagrim/Images/<%=p.getUn()%>"><%=p.getUn()%></figcaption>
                 <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>" alt="<%=p.getSUUID()%>"></a><br/>
+
+                <figcaption>
+                    <% if (p.getComments() == null) {%>Test<%} else {
+                        Iterator<Comments> citerator;
+                        citerator = p.getComments().iterator();
+                        while (citerator.hasNext()) {
+                            Comments c = (Comments) citerator.next();%>
+                    <a href="/Instagrim/Images/<%=c.getCommenter()%>"><%=c.getCommenter()%></a> &nbsp;&nbsp;
+                    <a class="time"><%=c.getTime()%></a>
+                    <a><%=c.getComment()%></a><br/>
+                    <%}
+                        }%>
+                </figcaption>
+
                 <% if (p.getDc() != null) {%><figcaption><%=p.getDc()%></figcaption><%}
                     if (lg != null) {
                         if (lg.getlogedin()) {%>
@@ -62,6 +76,7 @@
                     <textarea name="comment" rows="1" cols="47" placeholder="How do you like this picture?" required></textarea>
                     &nbsp;&nbsp;<input type="submit" value="Comment" > 
                     <input type="hidden" name="commenter" value="<%=lg.getUsername()%>">
+                    <input type="hidden" name="username" value="<%=p.getUn()%>">
                     <input type="hidden" name="picid" value="<%=p.getSUUID()%>">
                 </form> <%}%>
             </figure>
