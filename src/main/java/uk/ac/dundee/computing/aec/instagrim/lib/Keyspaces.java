@@ -11,8 +11,8 @@ public final class Keyspaces {
     public static void SetUpKeySpaces(Cluster c) {
         try {
             //Add some keyspaces here
-            String createkeyspace = "create keyspace if not exists instagrim  WITH replication = {'class':'SimpleStrategy', 'replication_factor':1}";
-            String CreatePicTable = "CREATE TABLE if not exists instagrim.Pics ("
+            String createkeyspace = "create keyspace if not exists instagrimXinyue  WITH replication = {'class':'SimpleStrategy', 'replication_factor':1}";
+            String CreatePicTable = "CREATE TABLE if not exists instagrimXinyue.Pics ("
                     + " user varchar,"
                     + " picid uuid, "
                     + " interaction_time timestamp,"
@@ -29,16 +29,16 @@ public final class Keyspaces {
                     + " PRIMARY KEY (picid,interaction_time)"
                     + ")WITH CLUSTERING ORDER BY (interaction_time desc);";
             
-            String Createuserpiclist = "CREATE TABLE if not exists instagrim.userpiclist ("
+            String Createuserpiclist = "CREATE TABLE if not exists instagrimXinyue.userpiclist ("
                     + "picid uuid,"
                     + "user varchar,"
                     + "pic_added timestamp,"
                     + "PRIMARY KEY (user,pic_added)"
                     + ") WITH CLUSTERING ORDER BY (pic_added desc);";
             
-            String picidInPiclist = "Create INDEX picid ON instagrim.userpiclist (picid)";
+            String picidInPiclist = "Create INDEX picid ON instagrimXinyue.userpiclist (picid)";
 
-            String CreatePicComment = "CREATE TABLE if not exists instagrim.comments ("
+            String CreatePicComment = "CREATE TABLE if not exists instagrimXinyue.comments ("
                     + "picid uuid,"
                     + "commenter varchar,"
                     + "time timestamp,"
@@ -46,7 +46,7 @@ public final class Keyspaces {
                     + "PRIMARY KEY (picid,time)"
                     + ") WITH CLUSTERING ORDER BY (time desc);";            
             
-            String CreateUserProfile = "CREATE TABLE if not exists instagrim.userprofiles ("
+            String CreateUserProfile = "CREATE TABLE if not exists instagrimXinyue.userprofiles ("
                     + " fname text,"
                     + " lname text,"
                     + " username text PRIMARY KEY,"
@@ -63,9 +63,9 @@ public final class Keyspaces {
                         statement);
                 ResultSet rs = session
                         .execute(boundStatement);
-                System.out.println("created instagrim ");
+                System.out.println("created instagrimXinyue ");
             } catch (Exception et) {
-                System.out.println("Can't create instagrim " + et);
+                System.out.println("Can't create instagrimXinyue " + et);
             }
 
             //now add some column families 

@@ -16,7 +16,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.LinkedList;
 import java.util.UUID;
 import uk.ac.dundee.computing.aec.instagrim.lib.AeSimpleSHA1;
-import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
 
 /**
  *
@@ -39,19 +38,29 @@ public class User {
             System.out.println("Can't check your password");
             return false;
         }
-        Session session = cluster.connect("instagrim");
-        PreparedStatement ps = session.prepare("insert into userprofiles (fname, lname, username, password, email) Values(?,?,?,?,?)");
+        Session session = cluster.connect("instagrimXinyue");
 
-        BoundStatement boundStatement = new BoundStatement(ps);
-        session.execute( // this is where the query is executed
-                boundStatement.bind( // here you are binding the 'boundStatement'
-                        fname, lname, username, EncodedPassword, email));
-        //We are assuming this always works.  Also a transaction would be good here !
-
+        PreparedStatement ps = session.prepare("SELECT username from userprofiles");
+        BoundStatement bs = new BoundStatement(ps);
+        ResultSet rs = session.execute(bs.bind());
+        if (rs.isExhausted()) {
+            System.out.println("No User");
+        } else {
+            for (Row row : rs) {
+                if (username.equals(row.getString("username"))) {
+                    return false;
+                }
+            }
+        }
+        PreparedStatement ps1 = session.prepare("insert into userprofiles (fname, lname, username, password, email) Values(?,?,?,?,?)");
+        BoundStatement bs1 = new BoundStatement(ps1);
+        session.execute(bs1.bind(fname, lname, username, EncodedPassword, email));
         return true;
     }
 
-    public boolean IsValidUser(String username, String Password) {
+
+
+public boolean IsValidUser(String username, String Password) {
         AeSimpleSHA1 sha1handler = new AeSimpleSHA1();
         String EncodedPassword = null;
         try {
@@ -60,7 +69,7 @@ public class User {
             System.out.println("Can't check your password");
             return false;
         }
-        Session session = cluster.connect("instagrim");
+        Session session = cluster.connect("instagrimXinyue");
         PreparedStatement ps = session.prepare("select password from userprofiles where username =?");
         ResultSet rs = null;
         BoundStatement boundStatement = new BoundStatement(ps);
@@ -84,7 +93,7 @@ public class User {
 
     public LinkedList getUserProfile(String username) {
 
-        Session session = cluster.connect("instagrim");
+        Session session = cluster.connect("instagrimXinyue");
         PreparedStatement ps = session.prepare("SELECT fname,lname,username,email,profilePic from userprofiles where username =?");
         LinkedList<String> userInfo = new LinkedList<>();
         ResultSet rs = null;
@@ -120,7 +129,7 @@ public class User {
     }
 
     public boolean changeUserProfile(String fname, String lname, String email, String username) {
-        Session session = cluster.connect("instagrim");
+        Session session = cluster.connect("instagrimXinyue");
         PreparedStatement ps = session.prepare("UPDATE userprofiles SET fname=?,lname=?,email=? WHERE username =?");
         BoundStatement boundStatement = new BoundStatement(ps);
         ResultSet rs = null;
@@ -139,7 +148,7 @@ public class User {
     }
 
     public UUID getProfilePic(String username) {
-        Session session = cluster.connect("instagrim");
+        Session session = cluster.connect("instagrimXinyue");
         PreparedStatement ps = session.prepare("SELECT profilePic from userprofiles where username =?");
         BoundStatement boundStatement = new BoundStatement(ps);
         ResultSet rs = session.execute(boundStatement.bind(username));

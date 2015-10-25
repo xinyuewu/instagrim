@@ -3,12 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package uk.ac.dundee.computing.aec.instagrim.servlets;
 
 import com.datastax.driver.core.Cluster;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -21,21 +19,19 @@ import uk.ac.dundee.computing.aec.instagrim.lib.CassandraHosts;
 import uk.ac.dundee.computing.aec.instagrim.models.User;
 import uk.ac.dundee.computing.aec.instagrim.stores.LoggedIn;
 
-
 /**
  *
  * @author Administrator
  */
 @WebServlet(name = "Register", urlPatterns = {"/Register"})
 public class Register extends HttpServlet {
-    Cluster cluster=null;
+
+    Cluster cluster = null;
+
     public void init(ServletConfig config) throws ServletException {
         // TODO Auto-generated method stub
         cluster = CassandraHosts.getCluster();
     }
-
-
-
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -48,24 +44,29 @@ public class Register extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String fname=request.getParameter("fname");
-        String lname=request.getParameter("lname");
-        String username=request.getParameter("username");
-        String password=request.getParameter("password");
-        String email=request.getParameter("email");
-        
-        User us=new User();
+        String fname = request.getParameter("fname");
+        String lname = request.getParameter("lname");
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String email = request.getParameter("email");
+
+        User us = new User();
         us.setCluster(cluster);
-        us.RegisterUser(fname, lname, username, password, email);
-        
-        HttpSession session=request.getSession();
-        LoggedIn lg = new LoggedIn();
-        lg.setLogedin();
-        lg.setUsername(username);
-        session.setAttribute("LoggedIn", lg);
-        
-	response.sendRedirect("/Instagrim");
-        
+                
+        boolean r = us.RegisterUser(fname, lname, username, password, email);
+        if (r) {
+            HttpSession session = request.getSession();
+            LoggedIn lg = new LoggedIn();
+            lg.setLogedin();
+            lg.setUsername(username);
+            session.setAttribute("LoggedIn", lg);
+            response.sendRedirect("Index");
+        } else {
+            request.setAttribute("registerFailed", true);
+            RequestDispatcher rd = request.getRequestDispatcher("register.jsp");
+            rd.forward(request, response);
+        }
+
     }
 
     /**
@@ -77,11 +78,11 @@ public class Register extends HttpServlet {
      * @throws javax.servlet.ServletException
      * @throws java.io.IOException
      */
-      @Override
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-         throws ServletException, IOException {
-            RequestDispatcher rd=request.getRequestDispatcher("register.jsp");
-	    rd.forward(request,response);
+            throws ServletException, IOException {
+        RequestDispatcher rd = request.getRequestDispatcher("register.jsp");
+        rd.forward(request, response);
     }
 
 }

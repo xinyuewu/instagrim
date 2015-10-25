@@ -7,15 +7,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-    
+
     <body>  
-        
-        <nav>
-           <p>Welcome!</p>
-           <a href="Index">Home</a><br>
-           <a href="Login">Log in</a><br>
-        </nav>
-        
         <article>
             <h3>Register as user</h3>
             <form method="POST"  action="Register">
@@ -26,7 +19,9 @@
                 <a class="asterisk">*</a>Email <input type="email" name="email" required><br>
                 <br><input type="submit" value="Creat account"> 
             </form>
+            <% if ((Boolean) request.getAttribute("registerFailed") != null) {%>
+            <p>The username has been registered. Please select a new username!</p><br> <%}%>
         </article>
-        
+
     </body>
 </html>

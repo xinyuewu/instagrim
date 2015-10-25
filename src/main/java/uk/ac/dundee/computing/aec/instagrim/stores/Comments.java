@@ -8,7 +8,6 @@ package uk.ac.dundee.computing.aec.instagrim.stores;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.UUID;
 
 /**
  *

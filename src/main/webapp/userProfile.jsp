@@ -10,23 +10,11 @@
 <html>
 
     <body>
-
-        <nav>
-            <% LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");%>
-            <p><%=lg.getUsername()%></p>
-            <a href="Index">Home</a><br>
-            <a href="Upload">Upload</a><br>
-            <a href="/Instagrim/Images/<%=lg.getUsername()%>">My Images</a><br>
-            <form method="POST" action="Logout"> 
-                <button type="submit" class="fakeLink" value="Log out">Log out </button>
-            </form>
-        </nav>
-
         <article>
             <h1>Hi <%=lg.getUsername()%>!</h1>
             <form method="POST" enctype="multipart/form-data" action="Image">
                 <%if (request.getAttribute("profilePic") != "") {System.out.println(request.getAttribute("profilePic"));%>
-                    <a href="/Instagrim/Image/<%=request.getAttribute("profilePic")%>" ><img src="/Instagrim/Thumb/<%=request.getAttribute("profilePic")%>" width=200px></a><br/>
+                    <a href="/InstagrimXinyue/Image/<%=request.getAttribute("profilePic")%>" ><img src="/InstagrimXinyue/Thumb/<%=request.getAttribute("profilePic")%>" width=200px></a><br/>
                         <%} else {%> 
                     <img width="200px" src="https://oodt.apache.org/images/profile.png" alt="Profile Picture"> <%}%>
                     <input type="file" name="upfile"> &nbsp;&nbsp;
@@ -40,6 +28,5 @@
                 <br><input type="submit" value="Update"> 
             </form>
         </article>
-
     </body>
 </html>

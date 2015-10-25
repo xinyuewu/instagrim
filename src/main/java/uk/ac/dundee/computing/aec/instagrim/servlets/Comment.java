@@ -72,7 +72,7 @@ public class Comment extends HttpServlet {
         p.setCluster(cluster);
         p.setComment(picid, commenter, comment);
 
-        response.sendRedirect("/Instagrim/Images/" + username);
+        response.sendRedirect("/InstagrimXinyue/Images/" + username);
     }
 
     /**

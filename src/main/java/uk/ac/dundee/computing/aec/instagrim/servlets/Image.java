@@ -8,7 +8,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.UUID;
 import javax.servlet.RequestDispatcher;
@@ -25,7 +24,6 @@ import uk.ac.dundee.computing.aec.instagrim.lib.CassandraHosts;
 import uk.ac.dundee.computing.aec.instagrim.lib.Convertors;
 import uk.ac.dundee.computing.aec.instagrim.models.PicModel;
 import uk.ac.dundee.computing.aec.instagrim.models.User;
-import uk.ac.dundee.computing.aec.instagrim.stores.Comments;
 import uk.ac.dundee.computing.aec.instagrim.stores.LoggedIn;
 import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
 
@@ -112,24 +110,6 @@ public class Image extends HttpServlet {
         UUID picid = UUID.fromString(Image);
         Pic p = tm.getPic(type, picid);
 
-       /* LinkedList<Comments> c = tm.getComment(picid);
-        request.setAttribute("comments", c);
-        
-        LinkedList<Comments> comments = (LinkedList<Comments>) request.getAttribute("comments");
-        if (comments != null) {
-            Iterator<Comments> Iterator;
-            Iterator = comments.iterator();
-            while (Iterator.hasNext()) {
-                Comments com = (Comments) Iterator.next();
-                
-                System.out.println("Image.java");
-                System.out.println("picid:"+picid);
-                System.out.println("commenter:" + com.getCommenter());
-                System.out.println("comment:" + com.getComment());
-                System.out.println("time:" + com.getTime());
-            }
-        }*/
-
         OutputStream out = response.getOutputStream();
 
         response.setContentType(p.getType());
@@ -154,6 +134,12 @@ public class Image extends HttpServlet {
                 break;
             }
             String type = part.getContentType();
+            System.out.println("Image.type: " + type);
+            if (!type.startsWith("image/")) {
+                request.setAttribute("invalidType", true);
+                RequestDispatcher rd = request.getRequestDispatcher("upload.jsp");
+                rd.forward(request, response);
+            }
             String filename = part.getSubmittedFileName();
 
             InputStream is = request.getPart(part.getName()).getInputStream();
@@ -185,7 +171,7 @@ public class Image extends HttpServlet {
             // rd.forward(request, response);
         } else {
             //response.sendRedirect("Image");
-            response.sendRedirect("/Instagrim/Images/" + username);
+            response.sendRedirect("/InstagrimXinyue/Images/" + username);
             // RequestDispatcher rd = request.getRequestDispatcher("Image");
             // rd.forward(request, response);
         }

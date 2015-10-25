@@ -7,7 +7,6 @@ package uk.ac.dundee.computing.aec.instagrim.servlets;
 
 import com.datastax.driver.core.Cluster;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -56,14 +55,10 @@ public class Login extends HttpServlet {
             LoggedIn lg = new LoggedIn();
             lg.setLogedin();
             lg.setUsername(username);
-            // request.setAttribute("LoggedIn", lg);
             session.setAttribute("LoggedIn", lg);
-            System.out.println("Session in servlet " + session);
-
             response.sendRedirect("Index");
 
         } else {
-            System.out.println("failed");
             request.setAttribute("failed", true);
             RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
             rd.forward(request, response);

@@ -6,9 +6,7 @@
 package uk.ac.dundee.computing.aec.instagrim.servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,7 +17,6 @@ import uk.ac.dundee.computing.aec.instagrim.stores.LoggedIn;
  *
  * @author xinyuewu
  */
-
 public class Logout extends HttpServlet {
 
     /**
@@ -33,15 +30,13 @@ public class Logout extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        System.out.println("inside");
+
         HttpSession session = request.getSession();
-       LoggedIn lg= (LoggedIn)session.getAttribute("LoggedIn");
-       lg.setLogedout();
-       session.invalidate();
-       response.sendRedirect("Index"); 
-        }
-    
+        LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
+        lg.setLogedout();
+        session.invalidate();
+        response.sendRedirect("Index");
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

@@ -56,14 +56,19 @@
     <jsp-config>
         <jsp-property-group>
             <description>header and footer settings</description>
-            <!--<url-pattern>/UsersPics.jsp</url-pattern>-->
-            <url-pattern>/login.jsp</url-pattern>
             <url-pattern>/index.jsp</url-pattern>
-            <url-pattern>/upload.jsp</url-pattern>
+            <url-pattern>/UsersPics.jsp</url-pattern>
+            <url-pattern>/login.jsp</url-pattern>
             <url-pattern>/register.jsp</url-pattern>
+            <url-pattern>/upload.jsp</url-pattern>
             <url-pattern>/userProfile.jsp</url-pattern>
+            <url-pattern>/error.jsp</url-pattern>
+
             <include-prelude>/header.jsp</include-prelude>
             <include-coda>/footer.jsp</include-coda>
         </jsp-property-group>
     </jsp-config>
+    <error-page>
+        <location>/error.jsp</location>
+    </error-page>
 </web-app>

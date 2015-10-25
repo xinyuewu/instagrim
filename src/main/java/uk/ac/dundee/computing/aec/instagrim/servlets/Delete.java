@@ -52,7 +52,7 @@ public class Delete extends HttpServlet {
         pp.setCluster(cluster);
         pp.deletePic(picid);
         //fix redirection
-    response.sendRedirect("/Instagrim/Images/"+username);
+    response.sendRedirect("/InstagrimXinyue/Images/"+username);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
