@@ -9,13 +9,13 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/Styles.css" />
+        <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/Styles.css" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>InstagrimXinyue</title>
     </head>
     <body>
         <header>
-            <h1>InstaGrim</h1>
+            <h1><a class="homeLink" href="<%=request.getContextPath()%>/Index">InstaGrim</a></h1>
         </header>
         <nav>
             <% LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
@@ -23,25 +23,23 @@
                     if (lg.getlogedin()) {
             %>
             <p><%=lg.getUsername()%></p>
-            <a href="<%=request.getContextPath()%>/Index">Home</a><br>
-            <a href="<%=request.getContextPath()%>/Upload">Upload</a><br>
-            <a href="<%=request.getContextPath()%>/Images/<%=lg.getUsername()%>">My Images</a><br>
-            <a href="<%=request.getContextPath()%>/UserProfile">My Account</a><br>
-            <form method="POST" action="<%=request.getContextPath()%>/Logout"> 
-                <button type="submit" class="fakeLink" value="Log out">Log out </button>
-            </form>
-            <% } else {%>
-            <p>Welcome!</p>
-            <a href="<%=request.getContextPath()%>/Index">Home</a><br>
-            <a href="<%=request.getContextPath()%>/Register">Register</a><br>
-            <a href="<%=request.getContextPath()%>/Login">Log in</a>
-            <%}
-            } else {%>
-            <p>Welcome!</p>
-            <a href="<%=request.getContextPath()%>/Index">Home</a><br>
-            <a href="<%=request.getContextPath()%>/Register">Register</a><br>
-            <a href="<%=request.getContextPath()%>/Login">Log in</a>
-            <%}%>
+            <ul id="menu">
+                <li><a href="<%=request.getContextPath()%>/Index">Home</a></li><br>
+                <li><a href="<%=request.getContextPath()%>/Upload">Upload</a></li><br>
+                <li><a href="<%=request.getContextPath()%>/Images/<%=lg.getUsername()%>">My Images</a></li><br>
+                <li><a href="<%=request.getContextPath()%>/UserProfile">My Account</a></li><br>
+                <form method="POST" action="<%=request.getContextPath()%>/Logout"> 
+                    <li><button type="submit" class="fakeLink" value="Log out">Log out </button></li>
+                </form>
+                <% }
+                } else {%>
+                <p>Welcome!</p>
+                <ul id="menu">
+                    <li><a href="<%=request.getContextPath()%>/Index">Home</a></li><br>
+                    <li><a href="<%=request.getContextPath()%>/Register">Register</a></li><br>
+                    <li><a href="<%=request.getContextPath()%>/Login">Log in</a></li>
+                        <%}%>
+                </ul>
         </nav>
     </body>
 </html>

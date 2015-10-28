@@ -13,22 +13,19 @@
 <html>
     <body>
         <article>
-            <%
-                LinkedList<Pic> lsPics = (LinkedList<Pic>) request.getAttribute("Pics");
-                if (lsPics == null) {
-            %>
-            <img width="60%" 
-                 src="http://www.goliath.com/wp-content/uploads/2015/06/highlands-photography-guy-photographer-mountains-elevation-landscape-the-camera-the-sky.jpg" 
-                 alt="Show Yourself!">
-            <%
-            } else {
+            <% LinkedList<Pic> lsPics = (LinkedList<Pic>) request.getAttribute("Pics");
+                if (lsPics == null) { %>
+            <img class="oneImage" src="http://www.goliath.com/wp-content/uploads/2015/06/highlands-photography-guy-photographer-mountains-elevation-landscape-the-camera-the-sky.jpg" alt="Show Yourself!">
+            
+            <%} else {
                 Iterator<Pic> iterator;
                 iterator = lsPics.iterator();
                 while (iterator.hasNext()) {
                     Pic p = (Pic) iterator.next();
             %>
             <figure>
-                <figcaption><a href="/InstagrimXinyue/Images/<%=p.getUn()%>"><%=p.getUn()%></figcaption>
+                <p><a href="/InstagrimXinyue/Images/<%=p.getUn()%>"><%=p.getUn()%></p>
+                
                 <a href="/InstagrimXinyue/Image/<%=p.getSUUID()%>" ><img src="/InstagrimXinyue/Thumb/<%=p.getSUUID()%>" alt="<%=p.getSUUID()%>"></a><br/>
                 
                 <% if (p.getDc() != null) {%><figcaption><%=p.getDc()%></figcaption><%}%>
@@ -39,8 +36,8 @@
                             citerator = p.getComments().iterator();
                             while (citerator.hasNext()) {
                                 Comments c = (Comments) citerator.next();%>
-                    <a class="time"><%=c.getTime()%></a>&nbsp;
                     <a href="/InstagrimXinyue/Images/<%=c.getCommenter()%>"><%=c.getCommenter()%></a> &nbsp;&nbsp;
+                    <a class="time"><%=c.getTime()%></a><br/>
                     <a><%=c.getComment()%></a><br/>
                     <%}
                         }%>
@@ -55,6 +52,7 @@
                     <input type="hidden" name="username" value="<%=p.getUn()%>">
                     <input type="hidden" name="picid" value="<%=p.getSUUID()%>">
                 </form> <%}%>
+                <br/><br/>
             </figure>
             <% }
                     }

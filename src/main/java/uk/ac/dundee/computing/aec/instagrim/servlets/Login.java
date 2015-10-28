@@ -50,7 +50,7 @@ public class Login extends HttpServlet {
         us.setCluster(cluster);
         boolean isValid = us.IsValidUser(username, password);
         HttpSession session = request.getSession();
-        System.out.println("Session in servlet " + session);
+
         if (isValid) {
             LoggedIn lg = new LoggedIn();
             lg.setLogedin();

@@ -15,12 +15,11 @@
                 <%if (request.getAttribute("profilePic") != null) {%>
                 <a href="<%=request.getContextPath()%>/Image/<%=request.getAttribute("profilePic")%>" ><img src="<%=request.getContextPath()%>/Thumb/<%=request.getAttribute("profilePic")%>" width=100px></a><br/>
                     <%} else {%> 
-                <img width="100px" src="https://oodt.apache.org/images/profile.png" alt="Profile Picture"> <%}%>
-                <figcaption><a><%=request.getAttribute("user")%></a></figcaption>
+                <img width="100px" src="https://oodt.apache.org/images/profile.png" alt="Profile Picture"><br/> <%}%>
+                <a><%=request.getAttribute("user")%></a>
             </figure>
 
-            <%  System.out.println("UsersPics.jsp:" + request.getAttribute("user"));
-                LinkedList<Pic> lsPics = (LinkedList<Pic>) request.getAttribute("Pics");
+            <%  LinkedList<Pic> lsPics = (LinkedList<Pic>) request.getAttribute("Pics");
 
                 if (lsPics == null) {
             %>
@@ -34,7 +33,7 @@
             %>
             <figure>
                 <a href="<%=request.getContextPath()%>/Image/<%=p.getSUUID()%>" ><img src="<%=request.getContextPath()%>/Thumb/<%=p.getSUUID()%>" alt="<%=p.getSUUID()%>"></a><br/>
-                <figcaption><%=p.getDc()%></figcaption>
+                <%if(p.getDc()!=null){%><figcaption><%=p.getDc()%></figcaption> <%}%>
 
                 <figcaption>
                     <% if (p.getComments() != null) {
@@ -42,29 +41,29 @@
                             citerator = p.getComments().iterator();
                             while (citerator.hasNext()) {
                                 Comments c = (Comments) citerator.next();%>
-                    <a class="time"><%=c.getTime()%></a>&nbsp;
-                    <a href="<%=request.getContextPath()%>/Images/<%=c.getCommenter()%>"><%=c.getCommenter()%></a> &nbsp;&nbsp;
+                    <a href="/InstagrimXinyue/Images/<%=c.getCommenter()%>"><%=c.getCommenter()%></a> &nbsp;&nbsp;
+                    <a class="time"><%=c.getTime()%></a><br/>
                     <a><%=c.getComment()%></a><br/>
                     <% }
                         }%>
                 </figcaption>
 
+                <%if (lg != null) {%>
                 <form method="POST" action="<%=request.getContextPath()%>/Comment">
-                    <textarea name="comment" rows="1" cols="47" placeholder="How do you like this picture?" required></textarea>
-                    &nbsp;&nbsp;<input type="submit" value="Comment" > 
+                    <textarea name="comment" rows="1" cols="48" placeholder="How do you like this picture?" required></textarea>
+                    &nbsp;&nbsp;<input type="submit" value="Comment" >                     
                     <input type="hidden" name="commenter" value="<%=lg.getUsername()%>">
                     <input type="hidden" name="username" value="<%=request.getAttribute("user")%>">
                     <input type="hidden" name="picid" value="<%=p.getSUUID()%>">     
-                    
                 </form> 
 
-                <%if (lg != null) {
-                        if (lg.getlogedin() && request.getAttribute("user").equals(lg.getUsername())) {%>
+                <%   if (lg.getlogedin() && request.getAttribute("user").equals(lg.getUsername())) {%>
                 <form method="POST" action="<%=request.getContextPath()%>/Delete">
                     <input type="hidden" name="delete" value="<%=p.getSUUID()%>">
                     <input type="submit" value="delete">
                 </form> 
-                <%}}%>
+                <%}
+                    }%>
             </figure>
             <% }
                 }%>

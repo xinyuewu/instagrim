@@ -5,9 +5,7 @@
 <html>
     <body>  
         <article>
-        <img width="60%" 
-                 src="http://www.ctnsy.ca/CTN/media/Images/Content%20Images/404.png" 
-                 alt="ERROR!">
+        <img class="oneImage" src="http://www.ctnsy.ca/CTN/media/Images/Content%20Images/404.png" alt="ERROR!">
         </article>
     </body>
 </html>

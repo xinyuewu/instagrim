@@ -10,12 +10,21 @@
 
     <body>
         <article>
+            <h1>Login</h1>
             <form method="POST"  action="Login">
-                <br>User Name <input type="text" name="username" autofocus required></li><br><br>
-                Password &nbsp;<input type="password" name="password" required></li><br><br>
-                <input type="submit" value="Login"> <br>
+                <div style=" margin: 0 auto;">
+                    <div class="left">
+                        <a>Username</a><br/>
+                        <a>Password</a><br/>
+                    </div>
+                    <div class="right">
+                        <input type="text" name="username" class="input" required><br>
+                        <input type="password" name="password" class="input" required><br>
+                    </div>
+                </div>
+                <input class="click" type="submit" value="Login"> <br>
             </form>
-            <% if((Boolean)request.getAttribute("failed") != null){%>
+            <% if ((Boolean) request.getAttribute("failed") != null) {%>
             <p>Wrong username or password!</p><br> <%}%>
         </article>
     </body>

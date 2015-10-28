@@ -69,11 +69,12 @@ public class PicModel {
         Date DateAdded = new Date();
         session.execute(bsInsertPic.bind(picid, buffer, thumbbuf, processedbuf, user, DateAdded, length, thumblength, processedlength, type, name, dc));
         if (profilePic) {
-
-            PreparedStatement ps3 = session.prepare("DELETE from pics WHERE picid=?");
-            BoundStatement bs3 = new BoundStatement(ps3);
-            session.execute(bs3.bind(getProfilePic(user)));
-
+            UUID pp = getProfilePic(user);
+            if (pp != null) {
+                PreparedStatement ps3 = session.prepare("DELETE from pics WHERE picid=?");
+                BoundStatement bs3 = new BoundStatement(ps3);
+                session.execute(bs3.bind(pp));
+            }
             PreparedStatement psProfilePic = session.prepare("UPDATE userprofiles SET profilePic=? WHERE username =?");
             BoundStatement bsProfilePic = new BoundStatement(psProfilePic);
             session.execute(bsProfilePic.bind(picid, user));
@@ -226,9 +227,7 @@ public class PicModel {
                 ps = session.prepare("select processed,processedlength,type,description from pics where picid =?");
             }
             BoundStatement boundStatement = new BoundStatement(ps);
-            rs = session.execute( // this is where the query is executed
-                    boundStatement.bind( // here you are binding the 'boundStatement'
-                            picid));
+            rs = session.execute(boundStatement.bind(picid));
 
             if (rs.isExhausted()) {
                 System.out.println("No Images returned");
@@ -317,11 +316,6 @@ public class PicModel {
                 String comment = row.getString("comment");
                 Date time = row.getDate("time");
 
-                System.out.println("PicModel");
-                System.out.println("commenter:" + commenter);
-                System.out.println("comment:" + comment);
-                System.out.println("time:" + time);
-
                 Comments c = new Comments();
                 c.setCom(commenter, comment, time);
 
@@ -333,7 +327,6 @@ public class PicModel {
 
     public UUID getProfilePic(String user) {
         UUID pp = null;
-        System.out.println("profpic uuid: inside");
         Session session = cluster.connect("instagrimXinyue");
         PreparedStatement ps = session.prepare("SELECT profilePic from userprofiles where username =?");
         BoundStatement bs = new BoundStatement(ps);
@@ -341,8 +334,8 @@ public class PicModel {
         for (Row row : rs) {
             pp = row.getUUID("profilePic");
         }
-        System.out.println("profpic uuid: exit");
         return pp;
     }
+
 
 }

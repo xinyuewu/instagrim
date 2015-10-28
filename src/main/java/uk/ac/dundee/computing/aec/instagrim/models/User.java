@@ -40,27 +40,17 @@ public class User {
         }
         Session session = cluster.connect("instagrimXinyue");
 
-        PreparedStatement ps = session.prepare("SELECT username from userprofiles");
-        BoundStatement bs = new BoundStatement(ps);
-        ResultSet rs = session.execute(bs.bind());
-        if (rs.isExhausted()) {
-            System.out.println("No User");
+        if (checkUser(username)) {
+            return false;
         } else {
-            for (Row row : rs) {
-                if (username.equals(row.getString("username"))) {
-                    return false;
-                }
-            }
+            PreparedStatement ps1 = session.prepare("insert into userprofiles (fname, lname, username, password, email) Values(?,?,?,?,?)");
+            BoundStatement bs1 = new BoundStatement(ps1);
+            session.execute(bs1.bind(fname, lname, username, EncodedPassword, email));
+            return true;
         }
-        PreparedStatement ps1 = session.prepare("insert into userprofiles (fname, lname, username, password, email) Values(?,?,?,?,?)");
-        BoundStatement bs1 = new BoundStatement(ps1);
-        session.execute(bs1.bind(fname, lname, username, EncodedPassword, email));
-        return true;
     }
 
-
-
-public boolean IsValidUser(String username, String Password) {
+    public boolean IsValidUser(String username, String Password) {
         AeSimpleSHA1 sha1handler = new AeSimpleSHA1();
         String EncodedPassword = null;
         try {
@@ -73,9 +63,7 @@ public boolean IsValidUser(String username, String Password) {
         PreparedStatement ps = session.prepare("select password from userprofiles where username =?");
         ResultSet rs = null;
         BoundStatement boundStatement = new BoundStatement(ps);
-        rs = session.execute( // this is where the query is executed
-                boundStatement.bind( // here you are binding the 'boundStatement'
-                        username));
+        rs = session.execute(boundStatement.bind(username));
         if (rs.isExhausted()) {
             System.out.println("No Images returned");
             return false;
@@ -132,35 +120,22 @@ public boolean IsValidUser(String username, String Password) {
         Session session = cluster.connect("instagrimXinyue");
         PreparedStatement ps = session.prepare("UPDATE userprofiles SET fname=?,lname=?,email=? WHERE username =?");
         BoundStatement boundStatement = new BoundStatement(ps);
-        ResultSet rs = null;
-        session.execute( // this is where the query is executed
-                boundStatement.bind( // here you are binding the 'boundStatement'
-                        fname, lname, email, username));
-        PreparedStatement ps2 = session.prepare("SELECT fname from userprofiles where username = ?");
-        BoundStatement bs2 = new BoundStatement(ps2);
-        rs = session.execute(bs2.bind(username));
-        if (!rs.isExhausted()) {
-            for (Row row : rs) {
-                System.out.println("results" + row.getString("fname"));
-            }
-        }
+        session.execute(boundStatement.bind(fname, lname, email, username));
         return true;
     }
 
-    public UUID getProfilePic(String username) {
+
+
+    public boolean checkUser(String username) {
+        String u = "";
         Session session = cluster.connect("instagrimXinyue");
-        PreparedStatement ps = session.prepare("SELECT profilePic from userprofiles where username =?");
-        BoundStatement boundStatement = new BoundStatement(ps);
-        ResultSet rs = session.execute(boundStatement.bind(username));
-        UUID pic = null;
-        if (rs.isExhausted()) {
-            System.out.println("No user profile pic");
-        } else {
-            for (Row row : rs) {
-                pic = row.getUUID("profilePic");
-            }
+        PreparedStatement ps = session.prepare("SELECT username from userprofiles where username=?");
+        BoundStatement bs = new BoundStatement(ps);
+        ResultSet rs = session.execute(bs.bind(username));
+        for (Row row : rs) {
+            u = row.getString("username");
         }
-        return pic;
+        return username.equals(u);
     }
 
 }

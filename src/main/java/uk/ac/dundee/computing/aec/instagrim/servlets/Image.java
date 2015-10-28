@@ -89,19 +89,24 @@ public class Image extends HttpServlet {
     }
 
     private void DisplayImageList(String User, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PicModel tm = new PicModel();
-        tm.setCluster(cluster);
-        LinkedList<Pic> lsPics = tm.getPicsForUser(User);
-        request.setAttribute("Pics", lsPics);
-        request.setAttribute("user", User);
-
         User user = new User();
         user.setCluster(cluster);
-        UUID pp = user.getProfilePic(User);
-        request.setAttribute("profilePic", pp);
+        if (user.checkUser(User)) {
+            PicModel tm = new PicModel();
+            tm.setCluster(cluster);
+            LinkedList<Pic> lsPics = tm.getPicsForUser(User);
+            request.setAttribute("Pics", lsPics);
+            request.setAttribute("user", User);
 
-        RequestDispatcher rd = request.getRequestDispatcher("/UsersPics.jsp");
-        rd.forward(request, response);
+            UUID pp = tm.getProfilePic(User);
+            request.setAttribute("profilePic", pp);
+
+            RequestDispatcher rd = request.getRequestDispatcher("/UsersPics.jsp");
+            rd.forward(request, response);
+        } else {
+            response.sendError(404);
+        }
+
     }
 
     private void DisplayImage(int type, String Image, HttpServletResponse response, HttpServletRequest request) throws ServletException, IOException {
@@ -134,7 +139,7 @@ public class Image extends HttpServlet {
                 break;
             }
             String type = part.getContentType();
-            System.out.println("Image.type: " + type);
+
             if (!type.startsWith("image/")) {
                 request.setAttribute("invalidType", true);
                 RequestDispatcher rd = request.getRequestDispatcher("upload.jsp");
