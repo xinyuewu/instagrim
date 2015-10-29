@@ -1,17 +1,5 @@
 package uk.ac.dundee.computing.aec.instagrim.models;
 
-/*
- * Expects a cassandra columnfamily defined as
- * use keyspace2;
- CREATE TABLE Tweets (
- user varchar,
- interaction_time timeuuid,
- tweet varchar,
- PRIMARY KEY (user,interaction_time)
- ) WITH CLUSTERING ORDER BY (interaction_time DESC);
- * To manually generate a UUID use:
- * http://www.famkruithof.net/uuid/uuidgen
- */
 import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.PreparedStatement;
@@ -33,7 +21,7 @@ import org.imgscalr.Scalr.Method;
 import uk.ac.dundee.computing.aec.instagrim.lib.*;
 import uk.ac.dundee.computing.aec.instagrim.stores.Comments;
 import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
-//import uk.ac.dundee.computing.aec.stores.TweetStore;
+
 
 public class PicModel {
 
@@ -48,12 +36,10 @@ public class PicModel {
     }
 
     public void insertPic(byte[] b, String type, String name, String user, String dc, boolean profilePic) {
-        Convertors convertor = new Convertors();
-
         String types[] = Convertors.SplitFiletype(type);
         ByteBuffer buffer = ByteBuffer.wrap(b);
         int length = b.length;
-        UUID picid = convertor.getTimeUUID();
+        UUID picid = Convertors.getTimeUUID();
 
         byte[] thumbb = picresize(types[1], b);
         int thumblength = thumbb.length;
@@ -144,7 +130,7 @@ public class PicModel {
         } else {
             for (Row row : rs) {
                 Pic pic = new Pic();
-                java.util.UUID UUID = row.getUUID("picid");
+                UUID UUID = row.getUUID("picid");
                 pic.setUUID(UUID);
                 String dc = row.getString("description");
                 pic.setDc(dc);
@@ -164,7 +150,8 @@ public class PicModel {
             }
             Collections.sort(Pics);
         }
-        return Pics;
+        if(!Pics.isEmpty()) return Pics;
+        else return null;
     }
 
     public LinkedList<Pic> getPicsForUser(String User) {
@@ -172,25 +159,22 @@ public class PicModel {
         Session session = cluster.connect("instagrimXinyue");
         PreparedStatement ps = session.prepare("select picid from userpiclist where user =?");
         BoundStatement boundStatement = new BoundStatement(ps);
-        ResultSet rs = session.execute( // this is where the query is executed
-                boundStatement.bind( // here you are binding the 'boundStatement'
-                        User));
+        ResultSet rs = session.execute(boundStatement.bind(User));
         if (rs.isExhausted()) {
             System.out.println("No Images returned");
             return null;
         } else {
             for (Row row : rs) {
                 Pic pic = new Pic();
-                java.util.UUID UUID = row.getUUID("picid");
+                UUID UUID = row.getUUID("picid");
                 pic.setUUID(UUID);
 
                 LinkedList<Comments> c = getComment(UUID);
                 pic.setComments(c);
 
                 PreparedStatement ps1 = session.prepare("select description from Pics where picid =?");
-                ResultSet rs1 = null;
                 BoundStatement boundStatement1 = new BoundStatement(ps1);
-                rs1 = session.execute(boundStatement1.bind(UUID));
+                ResultSet rs1 = session.execute(boundStatement1.bind(UUID));
                 if (rs1.isExhausted()) {
                     System.out.println("No Images returned");
                     return null;
@@ -198,10 +182,8 @@ public class PicModel {
                     for (Row row1 : rs1) {
                         String dc = row1.getString("description");
                         pic.setDc(dc);
-
                     }
                 }
-
                 Pics.add(pic);
             }
         }
@@ -212,19 +194,17 @@ public class PicModel {
         Session session = cluster.connect("instagrimXinyue");
         ByteBuffer bImage = null;
         String type = null;
-        String dc = null;
         int length = 0;
         try {
-
             ResultSet rs = null;
             PreparedStatement ps = null;
 
             if (image_type == Convertors.DISPLAY_IMAGE) {
-                ps = session.prepare("select image,imagelength,type,description from pics where picid =?");
+                ps = session.prepare("select image,imagelength,type from pics where picid =?");
             } else if (image_type == Convertors.DISPLAY_THUMB) {
-                ps = session.prepare("select thumb,imagelength,thumblength,type,description from pics where picid =?");
+                ps = session.prepare("select thumb,imagelength,thumblength,type from pics where picid =?");
             } else if (image_type == Convertors.DISPLAY_PROCESSED) {
-                ps = session.prepare("select processed,processedlength,type,description from pics where picid =?");
+                ps = session.prepare("select processed,processedlength,type from pics where picid =?");
             }
             BoundStatement boundStatement = new BoundStatement(ps);
             rs = session.execute(boundStatement.bind(picid));
@@ -245,9 +225,7 @@ public class PicModel {
                         bImage = row.getBytes("processed");
                         length = row.getInt("processedlength");
                     }
-
                     type = row.getString("type");
-                    dc = row.getString("description");
                 }
             }
         } catch (Exception et) {

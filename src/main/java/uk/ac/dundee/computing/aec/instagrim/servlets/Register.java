@@ -74,7 +74,6 @@ public class Register extends HttpServlet {
      *
      * @param request
      * @param response
-     * @return a String containing servlet description
      * @throws javax.servlet.ServletException
      * @throws java.io.IOException
      */

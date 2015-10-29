@@ -7,7 +7,6 @@ package uk.ac.dundee.computing.aec.instagrim.servlets;
 
 import com.datastax.driver.core.Cluster;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.LinkedList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -100,11 +99,6 @@ public class UserProfile extends HttpServlet {
         us.changeUserProfile(fname, lname, email, username);
      
         response.sendRedirect("UserProfile");
-        
-	//RequestDispatcher rd;
-      //  rd=request.getRequestDispatcher("userProfile.jsp");
-       // rd.forward(request, response);
-        
     }
 
     /**

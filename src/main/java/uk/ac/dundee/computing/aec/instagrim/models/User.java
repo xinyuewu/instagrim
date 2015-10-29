@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package uk.ac.dundee.computing.aec.instagrim.models;
 
 import com.datastax.driver.core.BoundStatement;
@@ -17,10 +12,6 @@ import java.util.LinkedList;
 import java.util.UUID;
 import uk.ac.dundee.computing.aec.instagrim.lib.AeSimpleSHA1;
 
-/**
- *
- * @author Administrator
- */
 public class User {
 
     Cluster cluster;
@@ -29,11 +20,14 @@ public class User {
 
     }
 
+    public void setCluster(Cluster cluster) {
+        this.cluster = cluster;
+    }
+
     public boolean RegisterUser(String fname, String lname, String username, String Password, String email) {
-        AeSimpleSHA1 sha1handler = new AeSimpleSHA1();
         String EncodedPassword = null;
         try {
-            EncodedPassword = sha1handler.SHA1(Password);
+            EncodedPassword = AeSimpleSHA1.SHA1(Password);
         } catch (UnsupportedEncodingException | NoSuchAlgorithmException et) {
             System.out.println("Can't check your password");
             return false;
@@ -51,25 +45,22 @@ public class User {
     }
 
     public boolean IsValidUser(String username, String Password) {
-        AeSimpleSHA1 sha1handler = new AeSimpleSHA1();
         String EncodedPassword = null;
         try {
-            EncodedPassword = sha1handler.SHA1(Password);
+            EncodedPassword = AeSimpleSHA1.SHA1(Password);
         } catch (UnsupportedEncodingException | NoSuchAlgorithmException et) {
             System.out.println("Can't check your password");
             return false;
         }
         Session session = cluster.connect("instagrimXinyue");
         PreparedStatement ps = session.prepare("select password from userprofiles where username =?");
-        ResultSet rs = null;
         BoundStatement boundStatement = new BoundStatement(ps);
-        rs = session.execute(boundStatement.bind(username));
+        ResultSet rs = session.execute(boundStatement.bind(username));
         if (rs.isExhausted()) {
             System.out.println("No Images returned");
             return false;
         } else {
             for (Row row : rs) {
-
                 String StoredPass = row.getString("password");
                 if (StoredPass.compareTo(EncodedPassword) == 0) {
                     return true;
@@ -80,20 +71,13 @@ public class User {
     }
 
     public LinkedList getUserProfile(String username) {
-
         Session session = cluster.connect("instagrimXinyue");
         PreparedStatement ps = session.prepare("SELECT fname,lname,username,email,profilePic from userprofiles where username =?");
         LinkedList<String> userInfo = new LinkedList<>();
-        ResultSet rs = null;
         BoundStatement boundStatement = new BoundStatement(ps);
-        rs = session.execute( // this is where the query is executed
-                boundStatement.bind( // here you are binding the 'boundStatement'
-                        username));
+        ResultSet rs = session.execute(boundStatement.bind(username));
         if (rs.isExhausted()) {
             System.out.println("No user info");
-            /*for (int i = 0; i < 4; i++) {
-             userInfo.add(null);
-             }*/
         } else {
             for (Row row : rs) {
                 userInfo.add(row.getString("fname"));
@@ -101,7 +85,7 @@ public class User {
                 userInfo.add(row.getString("username"));
                 userInfo.add(row.getString("email"));
 
-                java.util.UUID pic = row.getUUID("profilePic");
+                UUID pic = row.getUUID("profilePic");
                 if (pic == null) {
                     userInfo.add("");
                 } else {
@@ -112,10 +96,6 @@ public class User {
         return userInfo;
     }
 
-    public void setCluster(Cluster cluster) {
-        this.cluster = cluster;
-    }
-
     public boolean changeUserProfile(String fname, String lname, String email, String username) {
         Session session = cluster.connect("instagrimXinyue");
         PreparedStatement ps = session.prepare("UPDATE userprofiles SET fname=?,lname=?,email=? WHERE username =?");
@@ -123,8 +103,6 @@ public class User {
         session.execute(boundStatement.bind(fname, lname, email, username));
         return true;
     }
-
-
 
     public boolean checkUser(String username) {
         String u = "";

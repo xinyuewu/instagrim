@@ -23,7 +23,7 @@
 
                 if (lsPics == null) {
             %>
-            <p>No Pictures found</p>
+            <br/><h1>No Pictures found</h1>
             <%
             } else {
                 Iterator<Pic> iterator;
@@ -32,17 +32,18 @@
                     Pic p = (Pic) iterator.next();
             %>
             <figure>
-                <a href="<%=request.getContextPath()%>/Image/<%=p.getSUUID()%>" ><img src="<%=request.getContextPath()%>/Thumb/<%=p.getSUUID()%>" alt="<%=p.getSUUID()%>"></a><br/>
                 <%if(p.getDc()!=null){%><figcaption><%=p.getDc()%></figcaption> <%}%>
+                
+                <a href="<%=request.getContextPath()%>/Image/<%=p.getSUUID()%>" ><img src="<%=request.getContextPath()%>/Thumb/<%=p.getSUUID()%>" alt="<%=p.getSUUID()%>"></a><br/>            
 
-                <figcaption>
+                <figcaption style="background-color: #dcdcdc">
                     <% if (p.getComments() != null) {
                             Iterator<Comments> citerator;
                             citerator = p.getComments().iterator();
                             while (citerator.hasNext()) {
                                 Comments c = (Comments) citerator.next();%>
-                    <a href="/InstagrimXinyue/Images/<%=c.getCommenter()%>"><%=c.getCommenter()%></a> &nbsp;&nbsp;
-                    <a class="time"><%=c.getTime()%></a><br/>
+                    <a class="name" href="/InstagrimXinyue/Images/<%=c.getCommenter()%>"><%=c.getCommenter()%></a> &nbsp;
+                    <a class="time"><%=c.getTime()%></a>&nbsp;
                     <a><%=c.getComment()%></a><br/>
                     <% }
                         }%>

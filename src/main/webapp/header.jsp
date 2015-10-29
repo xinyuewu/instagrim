@@ -22,7 +22,7 @@
                 if (lg != null) {
                     if (lg.getlogedin()) {
             %>
-            <p><%=lg.getUsername()%></p>
+            <h1><%=lg.getUsername()%></h1>
             <ul id="menu">
                 <li><a href="<%=request.getContextPath()%>/Index">Home</a></li><br>
                 <li><a href="<%=request.getContextPath()%>/Upload">Upload</a></li><br>
@@ -33,7 +33,7 @@
                 </form>
                 <% }
                 } else {%>
-                <p>Welcome!</p>
+                <h1>Welcome!</h1>
                 <ul id="menu">
                     <li><a href="<%=request.getContextPath()%>/Index">Home</a></li><br>
                     <li><a href="<%=request.getContextPath()%>/Register">Register</a></li><br>

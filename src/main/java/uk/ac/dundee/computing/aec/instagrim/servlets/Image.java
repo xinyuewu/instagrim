@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package uk.ac.dundee.computing.aec.instagrim.servlets;
 
 import com.datastax.driver.core.Cluster;
@@ -43,22 +48,18 @@ public class Image extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
     private Cluster cluster;
-    private HashMap CommandsMap = new HashMap();
+    private final HashMap CommandsMap = new HashMap();
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+
     public Image() {
         super();
-        // TODO Auto-generated constructor stub
         CommandsMap.put("Image", 1);
         CommandsMap.put("Images", 2);
         CommandsMap.put("Thumb", 3);
-
     }
 
+    @Override
     public void init(ServletConfig config) throws ServletException {
-        // TODO Auto-generated method stub
         cluster = CassandraHosts.getCluster();
     }
 
@@ -172,24 +173,16 @@ public class Image extends HttpServlet {
         }
         if (session.getAttribute("Location").equals("profile")) {
             response.sendRedirect("UserProfile");
-            //RequestDispatcher rd = request.getRequestDispatcher("/userProfile.jsp");
-            // rd.forward(request, response);
         } else {
-            //response.sendRedirect("Image");
             response.sendRedirect("/InstagrimXinyue/Images/" + username);
-            // RequestDispatcher rd = request.getRequestDispatcher("Image");
-            // rd.forward(request, response);
         }
-
     }
 
     private void error(String mess, HttpServletResponse response) throws ServletException, IOException {
-
         PrintWriter out = null;
         out = new PrintWriter(response.getOutputStream());
         out.println("<h1>You have a na error in your input</h1>");
         out.println("<h2>" + mess + "</h2>");
         out.close();
-        return;
     }
 }

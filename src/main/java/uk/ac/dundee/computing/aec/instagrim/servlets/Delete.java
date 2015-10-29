@@ -7,9 +7,7 @@ package uk.ac.dundee.computing.aec.instagrim.servlets;
 
 import com.datastax.driver.core.Cluster;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.UUID;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -51,8 +49,7 @@ public class Delete extends HttpServlet {
         PicModel pp = new PicModel();
         pp.setCluster(cluster);
         pp.deletePic(picid);
-        //fix redirection
-    response.sendRedirect("/InstagrimXinyue/Images/"+username);
+        response.sendRedirect("/InstagrimXinyue/Images/" + username);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

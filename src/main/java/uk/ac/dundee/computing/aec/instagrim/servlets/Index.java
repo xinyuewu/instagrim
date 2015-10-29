@@ -48,7 +48,7 @@ public class Index extends HttpServlet {
         tm.setCluster(cluster);
         java.util.LinkedList<Pic> lsPics = tm.getAllPics();
         request.setAttribute("Pics", lsPics);
-        
+        System.out.println("Index.lsPics: "+lsPics);
         RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
         rd.forward(request, response);
     }

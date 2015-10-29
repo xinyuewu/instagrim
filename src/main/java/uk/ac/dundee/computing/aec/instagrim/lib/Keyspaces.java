@@ -10,7 +10,6 @@ public final class Keyspaces {
 
     public static void SetUpKeySpaces(Cluster c) {
         try {
-            //Add some keyspaces here
             String createkeyspace = "create keyspace if not exists instagrimXinyue  WITH replication = {'class':'SimpleStrategy', 'replication_factor':1}";
             String CreatePicTable = "CREATE TABLE if not exists instagrimXinyue.Pics ("
                     + " user varchar,"
@@ -57,18 +56,14 @@ public final class Keyspaces {
 
             Session session = c.connect();
             try {
-                PreparedStatement statement = session
-                        .prepare(createkeyspace);
-                BoundStatement boundStatement = new BoundStatement(
-                        statement);
-                ResultSet rs = session
-                        .execute(boundStatement);
+                PreparedStatement statement = session.prepare(createkeyspace);
+                BoundStatement boundStatement = new BoundStatement(statement);
+                ResultSet rs = session.execute(boundStatement);
                 System.out.println("created instagrimXinyue ");
             } catch (Exception et) {
                 System.out.println("Can't create instagrimXinyue " + et);
             }
 
-            //now add some column families 
             System.out.println("" + CreatePicTable);
             try {
                 SimpleStatement cqlQuery = new SimpleStatement(CreatePicTable);

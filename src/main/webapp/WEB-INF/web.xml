@@ -68,7 +68,7 @@
             <include-coda>/footer.jsp</include-coda>
         </jsp-property-group>
     </jsp-config>
-  <error-page>
+    <error-page>
         <location>/error.jsp</location>
     </error-page>
 </web-app>

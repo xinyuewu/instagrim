@@ -9,6 +9,7 @@ import com.datastax.driver.core.utils.Bytes;
 import java.nio.ByteBuffer;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.UUID;
 
 /**
  *
@@ -16,10 +17,10 @@ import java.util.LinkedList;
  */
 public class Pic implements Comparable<Pic> {
 
-    private ByteBuffer bImage = null;
+    private ByteBuffer bImage;
     private int length;
     private String type;
-    private java.util.UUID UUID = null;
+    private java.util.UUID UUID;
     private String dc;
     private String un;
     private Date date;
@@ -48,7 +49,7 @@ public class Pic implements Comparable<Pic> {
         this.c=c;
     }
 
-    public void setUUID(java.util.UUID UUID) {
+    public void setUUID(UUID UUID) {
         this.UUID = UUID;
     }
 
